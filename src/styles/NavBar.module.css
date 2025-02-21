@@ -1,0 +1,26 @@
+.navbar {
+    min-width: 40px;
+}
+
+.logo {
+    width: 100px;
+    height: auto;
+}
+
+.profile-placeholder {
+    width: 30px;
+}
+
+/* For large devices (tablets and desktops) */
+@media (min-width: 768px) {
+    .logo {
+        width: 100px;
+    }
+
+    .profile-placeholder {
+        width: 60px;
+    }
+}
+
+/* For very large screens */
+@media (min-width: 1200px) {}

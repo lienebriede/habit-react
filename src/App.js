@@ -18,6 +18,7 @@ function App() {
           <Route render={() => <p>Page not found!</p>} />
         </Switch>
       </Container>
+      <div className="background-image"></div>
     </div>
   );
 }
