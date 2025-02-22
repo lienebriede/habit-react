@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { Form, Alert, Button, Container } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
+
+import styles from "../../styles/SignUpForm.module.css";
+import btnStyles from "../../styles/Button.module.css";
+import { Form, Alert, Button, Container } from "react-bootstrap";
+
+import axios from "axios";
 
 function SignInForm() {
     const [signInData, setSignInData] = useState({
@@ -33,58 +37,65 @@ function SignInForm() {
     };
 
     return (
-        <Container className="mt-5">
-            <h2 className="mb-4">Sign In</h2>
+        <Container className={styles.formContainer}>
+            <div className={styles.formWrapper}>
+                <h1>Log in</h1>
 
-            <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="username">
-                    <Form.Label className="d-none">Username</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Username"
-                        name="username"
-                        value={username}
-                        onChange={handleChange}
-                        required
-                    />
-                </Form.Group>
-                {errors.username?.map((message, idx) => (
-                    <Alert key={idx} variant="warning">
-                        {message}
-                    </Alert>
-                ))}
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group controlId="username" className={styles.formControl}>
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Username"
+                            name="username"
+                            value={username}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Form.Group>
+                    {errors.username?.map((message, idx) => (
+                        <Alert key={idx} variant="warning">
+                            {message}
+                        </Alert>
+                    ))}
 
-                <Form.Group controlId="password">
-                    <Form.Label className="d-none">Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Password"
-                        name="password"
-                        value={password}
-                        onChange={handleChange}
-                        required
-                    />
-                </Form.Group>
-                {errors.password?.map((message, idx) => (
-                    <Alert key={idx} variant="warning">
-                        {message}
-                    </Alert>
-                ))}
+                    <Form.Group controlId="password" className={styles.formControl}>
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            placeholder="Password"
+                            name="password"
+                            value={password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Form.Group>
+                    {errors.password?.map((message, idx) => (
+                        <Alert key={idx} variant="warning">
+                            {message}
+                        </Alert>
+                    ))}
 
-                <Button className="mt-3" variant="primary" type="submit">
-                    Sign In
-                </Button>
+                    <Button
+                        className={`${btnStyles.SignUp}`}
+                        type="submit">
+                        Sign In
+                    </Button>
 
-                {errors.non_field_errors?.map((message, idx) => (
-                    <Alert key={idx} variant="warning" className="mt-3">
-                        {message}
-                    </Alert>
-                ))}
-            </Form>
+                    {errors.non_field_errors?.map((message, idx) => (
+                        <Alert key={idx} variant="warning" className="mt-3">
+                            {message}
+                        </Alert>
+                    ))}
+                </Form>
 
-            <Container className="mt-3">
-                <Link to="/signup">Don't have an account? <span>Sign up now!</span></Link>
-            </Container>
+                <Container className="mt-3">
+                    <div className={styles.signUpText}>
+                        Don't have an account?
+                        <Link to="/signup">Sign up here</Link>
+                    </div>
+                </Container>
+            </div>
         </Container>
     );
 }

@@ -1,0 +1,21 @@
+.SignUp {
+    font-size: 1rem;
+    background-color: #FF6F20;
+    color: white;
+    font-weight: 600;
+    padding: 12px;
+    border-radius: 0;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    margin-top: 20px;
+}
+
+.SignUp:hover,
+.SignUp:active,
+.SignUp:focus,
+.SignUp:disabled {
+    background-color: #fc5f0a;
+    border-color: #fc5f0a;
+}

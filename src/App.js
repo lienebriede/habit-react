@@ -6,6 +6,7 @@ import background from "./assets/background.png";
 import LogInForm from "./pages/auth/LogInForm";
 import SignUpForm from "./pages/auth/SignUpForm";
 import ProfilePage from './components/ProfilePage';
+import LogOutForm from "./pages/auth/LogOutForm";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route exact path="/" render={() => <ProfilePage />} />
           <Route exact path="/signin" render={() => <LogInForm />} />
           <Route exact path="/signup" render={() => <SignUpForm />} />
+          <Route exact path="/logout" render={() => <LogOutForm />} />
           <Route render={() => <p>Page not found!</p>} />
         </Switch>
       </Container>
