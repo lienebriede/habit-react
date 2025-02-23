@@ -1,0 +1,13 @@
+.profileContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 120px;
+    background-color: transparent;
+}
+
+.welcomeMessage {
+    padding-bottom: 50px;
+    text-align: center;
+}

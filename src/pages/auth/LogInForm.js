@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import styles from "../../styles/SignUpForm.module.css";
+import formStyles from "../../styles/Form.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import { Form, Alert, Button, Container } from "react-bootstrap";
 
@@ -37,12 +37,12 @@ function SignInForm() {
     };
 
     return (
-        <Container className={styles.formContainer}>
-            <div className={styles.formWrapper}>
+        <Container className={formStyles.formContainer}>
+            <div className={formStyles.formWrapper}>
                 <h1>Log in</h1>
 
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="username" className={styles.formControl}>
+                    <Form.Group controlId="username" className={formStyles.formControl}>
                         <Form.Label>Username</Form.Label>
                         <Form.Control
                             type="text"
@@ -59,7 +59,7 @@ function SignInForm() {
                         </Alert>
                     ))}
 
-                    <Form.Group controlId="password" className={styles.formControl}>
+                    <Form.Group controlId="password" className={formStyles.formControl}>
                         <Form.Label>Password</Form.Label>
                         <Form.Control
                             type="password"
@@ -90,7 +90,7 @@ function SignInForm() {
                 </Form>
 
                 <Container className="mt-3">
-                    <div className={styles.signUpText}>
+                    <div className={formStyles.signUpText}>
                         Don't have an account?
                         <Link to="/signup">Sign up here</Link>
                     </div>

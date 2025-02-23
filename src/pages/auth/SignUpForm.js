@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import styles from "../../styles/SignUpForm.module.css";
+import formStyles from "../../styles/Form.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import { Form, Alert, Button, Container } from "react-bootstrap";
 
@@ -36,12 +36,12 @@ const SignUpForm = () => {
     };
 
     return (
-        <Container className={styles.formContainer}>
-            <div className={styles.formWrapper}>
+        <Container className={formStyles.formContainer}>
+            <div className={formStyles.formWrapper}>
                 <h1>Sign up</h1>
 
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="username" className={styles.formControl}>
+                    <Form.Group controlId="username" className={formStyles.formControl}>
                         <Form.Label>Username</Form.Label>
                         <Form.Control
                             type="text"
@@ -58,7 +58,7 @@ const SignUpForm = () => {
                         </Alert>
                     ))}
 
-                    <Form.Group controlId="password1" className={styles.formControl}>
+                    <Form.Group controlId="password1" className={formStyles.formControl}>
                         <Form.Label>Password</Form.Label>
                         <Form.Control
                             type="password"
@@ -75,7 +75,7 @@ const SignUpForm = () => {
                         </Alert>
                     ))}
 
-                    <Form.Group controlId="password2" className={styles.formControl}>
+                    <Form.Group controlId="password2" className={formStyles.formControl}>
                         <Form.Label>Confirm Password</Form.Label>
                         <Form.Control
                             type="password"
@@ -106,7 +106,7 @@ const SignUpForm = () => {
                 </Form>
 
                 <Container className="mt-3">
-                    <div className={styles.signUpText}>
+                    <div className={formStyles.signUpText}>
                         Already have an account?
                         <Link to="/signin">Log in here</Link>
                     </div>

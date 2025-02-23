@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import styles from "../../styles/SignUpForm.module.css";
+import formStyles from "../../styles/Form.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import { Alert, Button, Container } from "react-bootstrap";
 
@@ -22,10 +22,10 @@ function LogOutForm() {
     };
 
     return (
-        <Container className={styles.formContainer}>
-            <div className={styles.formWrapper}>
+        <Container className={formStyles.formContainer}>
+            <div className={formStyles.formWrapper}>
                 <h1>Log out</h1>
-                <p className={`text-center ${styles.logoutMessage}`}>Are you sure you want to log out?</p>
+                <p className={`text-center ${formStyles.logoutMessage}`}>Are you sure you want to log out?</p>
 
                 {errors && (
                     <Alert variant="warning">

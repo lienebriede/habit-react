@@ -28,6 +28,7 @@ const NavBar = () => {
                                 src={profilePlaceholder}
                                 alt="Profile"
                                 height="45"
+                                width="45"
                             />
                         </Dropdown.Toggle>
                         <Dropdown.Menu className={styles.dropdownMenu}>

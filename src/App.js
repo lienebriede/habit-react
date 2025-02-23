@@ -5,7 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import background from "./assets/background.png";
 import LogInForm from "./pages/auth/LogInForm";
 import SignUpForm from "./pages/auth/SignUpForm";
-import ProfilePage from './components/ProfilePage';
+import ProfilePage from './pages/profile/ProfilePage';
 import LogOutForm from "./pages/auth/LogOutForm";
 
 function App() {
@@ -14,10 +14,11 @@ function App() {
       <NavBar />
       <Container>
         <Switch>
-          <Route exact path="/" render={() => <ProfilePage />} />
+          <Route exact path="/" render={() => <LogInForm />} />
           <Route exact path="/signin" render={() => <LogInForm />} />
           <Route exact path="/signup" render={() => <SignUpForm />} />
           <Route exact path="/logout" render={() => <LogOutForm />} />
+          <Route exact path="/profile" render={() => <ProfilePage />} />
           <Route render={() => <p>Page not found!</p>} />
         </Switch>
       </Container>
