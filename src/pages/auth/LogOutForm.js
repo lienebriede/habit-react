@@ -34,7 +34,7 @@ function LogOutForm() {
                 )}
 
                 <Button
-                    className={`${btnStyles.signUpBtn}`}
+                    className={`${btnStyles.mainBtn} ${btnStyles.signUpBtn}`}
                     onClick={handleLogout}>
                     Log Out
                 </Button>

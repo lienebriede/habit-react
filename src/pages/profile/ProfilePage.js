@@ -115,7 +115,7 @@ const ProfilePage = () => {
                         />
                     </Form.Group>
 
-                    <Button className={`${btnStyles.signUpBtn}`} type="button" onClick={handleUploadClick}>
+                    <Button className={`${btnStyles.mainBtn} ${btnStyles.signUpBtn}`} type="button" onClick={handleUploadClick}>
                         Update Profile
                     </Button>
                 </Form>
