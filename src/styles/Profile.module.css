@@ -11,3 +11,21 @@
     padding-bottom: 50px;
     text-align: center;
 }
+
+.profileImageWrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.profileImage {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+p {
+    margin-bottom: 0;
+}

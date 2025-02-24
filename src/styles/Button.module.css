@@ -1,4 +1,4 @@
-.SignUp {
+.signUpBtn {
     font-size: 1rem;
     background-color: #FF6F20;
     color: white;
@@ -12,10 +12,20 @@
     margin-top: 20px;
 }
 
-.SignUp:hover,
-.SignUp:active,
-.SignUp:focus,
-.SignUp:disabled {
+.signUpBtn:hover,
+.signUpBtn:active,
+.signUpBtn:focus,
+.signUpBtn:disabled {
     background-color: #fc5f0a;
     border-color: #fc5f0a;
+}
+
+.modalBtn {
+    background-color: #4CAF50;
+    border: #4CAF50;
+    color: white;
+}
+
+.modalBtn:hover {
+    background-color: #19ab1e;
 }

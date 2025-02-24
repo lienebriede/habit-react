@@ -4,16 +4,19 @@ import { NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
 import profilePlaceholder from "../assets/profile-placeholder.png";
 import styles from "../styles/NavBar.module.css";
+import { useProfile } from "../contexts/ProfileContext";
 
 const NavBar = () => {
     const [showDropdown, setShowDropdown] = useState(false);
+    const { profile } = useProfile();
+    const profileImage = profile?.image || profilePlaceholder;
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };
 
     return (
-        <Navbar className={styles.NavBar} expand="md" fixed="top">
+        <Navbar className={styles.navBar} expand="md" fixed="top">
             <Container fluid className="d-flex justify-content-between align-items-center">
                 <Navbar.Brand as={NavLink} to="/">
                     <img src={logo} alt="Logo" height="45" />
@@ -23,13 +26,13 @@ const NavBar = () => {
                     <Nav.Link as={NavLink} to="/mystacks" className="mr-3 mr-lg-5">
                         <i class="fa-solid fa-cubes-stacked"></i>My Stacks</Nav.Link>
                     <Dropdown show={showDropdown} onToggle={setShowDropdown} alignRight>
-                        <Dropdown.Toggle as="div" onClick={toggleDropdown} className={styles.profilePlaceholder}>
-                            <img
-                                src={profilePlaceholder}
-                                alt="Profile"
-                                height="45"
-                                width="45"
-                            />
+                        <Dropdown.Toggle as="div" onClick={toggleDropdown} className={styles.toggle}>
+                            <div className={styles.profileImage}>
+                                <img
+                                    src={profileImage}
+                                    alt="Profile"
+                                />
+                            </div>
                         </Dropdown.Toggle>
                         <Dropdown.Menu className={styles.dropdownMenu}>
                             <NavLink

@@ -10,55 +10,63 @@ import axios from "axios";
 
 const ProfilePage = () => {
     const [profile, setProfile] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(null);
     const [errors, setErrors] = useState(null);
-    const [username, setUsername] = useState("");
-    const [image, setImage] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const history = useHistory();
 
+    // Fetch user profile data on component mount
     useEffect(() => {
         const fetchProfile = async () => {
             try {
                 const token = localStorage.getItem("token");
                 if (!token) {
-                    history.push("/signin");  // Redirect to login if no token
+                    history.push("/signin");
                     return;
                 }
 
-                // Try fetching the user profile
-                const userResponse = await axios.get("https://habit-by-bit-django-afc312512795.herokuapp.com/dj-rest-auth/user/", {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
+                const userResponse = await axios.get(
+                    "https://habit-by-bit-django-afc312512795.herokuapp.com/dj-rest-auth/user/",
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
 
                 const profileId = userResponse.data.pk;
-                const profileResponse = await axios.get(`https://habit-by-bit-django-afc312512795.herokuapp.com/profiles/${profileId}/`, {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
+                const profileResponse = await axios.get(
+                    `https://habit-by-bit-django-afc312512795.herokuapp.com/profiles/${profileId}/`,
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
 
                 setProfile(profileResponse.data);
-                setUsername(profileResponse.data.username || "");
             } catch (err) {
-                // If there's an error fetching profile (like token expired or invalid)
                 setErrors("Session expired or invalid. Please log in again.");
-                history.push("/signin");  // Redirect to login on error
+                history.push("/signin");
             }
         };
 
         fetchProfile();
     }, [history]);
 
-    const handleUpdate = async (e) => {
-        e.preventDefault();
+
+    // Handle file selection, but do not upload yet
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setSelectedImage(file);
+    };
+
+    // Upload selected image when the user clicks the "Update Profile" button
+    const handleUploadClick = async () => {
+        if (!selectedImage) return;
+
+        const formData = new FormData();
+        formData.append("image", selectedImage);
+
         try {
             const token = localStorage.getItem("token");
-            const profileId = profile.id;
 
-            const formData = new FormData();
-            formData.append("username", username);
-            if (image) formData.append("image", image);
-
-            await axios.patch(
-                `https://habit-by-bit-django-afc312512795.herokuapp.com/profiles/${profileId}/`,
+            const response = await axios.patch(
+                `https://habit-by-bit-django-afc312512795.herokuapp.com/profiles/${profile.id}/`,
                 formData,
                 {
                     headers: {
@@ -68,14 +76,14 @@ const ProfilePage = () => {
                 }
             );
 
-            setProfile((prevProfile) => ({ ...prevProfile, username, image: URL.createObjectURL(image) }));
+            setProfile(response.data);
             setShowModal(true);
         } catch (err) {
-            setErrors(err.response?.data || "Error updating profile");
+            setErrors("Failed to upload image. Try again.");
         }
     };
 
-    // If the profile is null, do not render the form or any other content
+    // Prevent rendering if profile data is not available
     if (!profile) return null;
 
     return (
@@ -84,27 +92,32 @@ const ProfilePage = () => {
 
             <div className={styles.welcomeMessage}>
                 <h1>Welcome, {profile.user}!</h1>
-                <p><i class="fa-regular fa-circle-user"></i>Member since {profile.created_at}</p>
+                <p>
+                    <i className="fa-regular fa-circle-user"></i> Member since {profile.created_at}
+                </p>
             </div>
+
             <div className={formStyles.formWrapper}>
-
-                <Form onSubmit={handleUpdate}>
-
-
+                <Form>
                     <Form.Group controlId="image">
-                        <p><strong>Update your profile image:</strong></p>
+                        <div className={styles.profileImageWrapper}>
+                            <img
+                                src={profile.image || "../assets/profile-placeholder.png"}
+                                alt="Profile"
+                                className={styles.profileImage}
+                            />
+                            <p><strong>Update your profile image:</strong></p>
+                        </div>
                         <Form.Control
                             type="file"
-                            onChange={(e) => setImage(e.target.files[0])}
+                            onChange={handleImageChange}
                             accept="image/*"
                         />
                     </Form.Group>
 
-                    <Button className={`${btnStyles.SignUp}`} type="submit">
+                    <Button className={`${btnStyles.signUpBtn}`} type="button" onClick={handleUploadClick}>
                         Update Profile
                     </Button>
-
-
                 </Form>
             </div>
 
@@ -115,8 +128,8 @@ const ProfilePage = () => {
                 </Modal.Header>
                 <Modal.Body>Your profile has been successfully updated.</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowModal(false)}>
-                        Close
+                    <Button className={btnStyles.modalBtn} onClick={() => setShowModal(false)}>
+                        OK!
                     </Button>
                 </Modal.Footer>
             </Modal>

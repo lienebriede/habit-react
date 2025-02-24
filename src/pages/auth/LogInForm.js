@@ -77,7 +77,7 @@ function SignInForm() {
                     ))}
 
                     <Button
-                        className={`${btnStyles.SignUp}`}
+                        className={`${btnStyles.signUpBtn}`}
                         type="submit">
                         Sign In
                     </Button>
