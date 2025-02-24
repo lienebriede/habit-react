@@ -29,12 +29,23 @@ const SignUpForm = () => {
         event.preventDefault();
         try {
             await axios.post("https://habit-by-bit-django-afc312512795.herokuapp.com/dj-rest-auth/registration/", signUpData);
-            history.push("/signin");
+
+            // After signup, log the user in automatically
+            const loginResponse = await axios.post(
+                "https://habit-by-bit-django-afc312512795.herokuapp.com/dj-rest-auth/login/",
+                {
+                    username: signUpData.username,
+                    password: signUpData.password1,
+                }
+            );
+
+            localStorage.setItem("token", loginResponse.data.access_token);
+
+            history.push("/dashboard");
         } catch (err) {
             setErrors(err.response?.data);
         }
     };
-
     return (
         <Container className={formStyles.formContainer}>
             <div className={formStyles.formWrapper}>

@@ -23,7 +23,7 @@ function SignInForm() {
         try {
             const { data } = await axios.post("https://habit-by-bit-django-afc312512795.herokuapp.com/dj-rest-auth/login/", signInData);
             localStorage.setItem("token", data.access_token);
-            history.push("/profile");
+            history.push("/dashboard");
         } catch (err) {
             setErrors(err.response?.data);
         }
