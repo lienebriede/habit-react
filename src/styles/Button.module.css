@@ -28,16 +28,6 @@
     outline: none;
 }
 
-.startNowBtn {
-    position: fixed;
-    top: 70%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1500;
-    font-size: 1.1rem;
-    width: 20%;
-}
-
 .modalBtn {
     background-color: #4CAF50;
     border: #4CAF50;

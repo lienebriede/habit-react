@@ -70,3 +70,30 @@
 .modalContent i {
     color: #4CAF50;
 }
+
+.startNowBtn {
+    position: fixed;
+    top: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1500;
+    font-size: 1.1rem;
+    width: 40%;
+}
+
+
+@media (min-width: 1024px) {
+    .modalContent {
+        max-width: 900px;
+    }
+
+    .startNowBtn {
+        width: 25%;
+    }
+}
+
+@media (min-width: 1440px) {
+    .modalContent {
+        max-width: 1200px;
+    }
+}
