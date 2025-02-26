@@ -11,6 +11,8 @@ import ProfilePage from './pages/profile/ProfilePage';
 import LogOutForm from "./pages/auth/LogOutForm";
 import Dashboard from './pages/dashboard/Dashboard';
 import WelcomeModal from './components/WelcomeModal';
+import MyStacks from "./pages/stacks/MyStacks";
+import CreateStack from "./pages/stacks/CreateStack";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -59,6 +61,8 @@ function App() {
             {/* Private routes (logged-in users) */}
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <PrivateRoute exact path="/profile" component={ProfilePage} />
+            <PrivateRoute exact path="/mystacks" component={MyStacks} />
+            <PrivateRoute exact path="/mystacks/create" component={CreateStack} />
 
             {/* Redirect everything else to login */}
             <Route render={() => <Redirect to="/signin" />} />

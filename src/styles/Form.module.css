@@ -57,3 +57,8 @@ a:hover {
     margin-bottom: 30px;
     padding: 10px 0;
 }
+
+.tinyText {
+    font-size: 12px;
+    margin-bottom: 15px;
+}

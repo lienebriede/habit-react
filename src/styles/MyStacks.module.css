@@ -1,0 +1,45 @@
+.stacksContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 120px;
+    background-color: transparent;
+}
+
+.stacksWrapper {
+    width: 100%;
+    max-width: 600px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.listItem {
+    margin-bottom: 20px;
+    height: 100px;
+    border-radius: 10px;
+    border: white;
+    display: flex;
+    align-items: center;
+}
+
+.customBtn {
+    background: white;
+    /* Removes Bootstrap's default blue background */
+    border: white;
+    color: black;
+    /* Removes default button border */
+    width: 100%;
+    cursor: pointer;
+    /* Ensure it looks clickable */
+}
+
+/* Optional: Add hover effect like ListGroup.Item */
+.customBtn:hover {
+    background-color: white;
+    color: #FF6F20;
+    /* Adjust to match your theme */
+}
