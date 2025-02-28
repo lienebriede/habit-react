@@ -1,6 +1,5 @@
 .mainBtn {
     font-size: 1rem;
-    background-color: #FF6F20;
     color: white;
     font-weight: 600;
     padding: 12px;
@@ -12,20 +11,34 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.signUpBtn {
+.largeBtn {
     width: 100%;
 }
 
-.mainBtn:hover,
-.mainBtn:active,
-.mainBtn:focus,
-.mainBtn:disabled {
-    background-color: #fc5f0a;
-    border-color: #fc5f0a;
+.editBtn {
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
-.mainBtn:focus {
-    outline: none;
+.editBtn i {
+    padding-left: 0;
+    font-size: 1rem;
+}
+
+.viewBtn {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.viewBtn i {
+    padding-left: 0;
+    font-size: 1rem;
+}
+
+.smallBtn {
+    padding: 8px;
+    font-size: 1rem;
+    margin-top: 5px;
 }
 
 .modalBtn {
@@ -36,4 +49,66 @@
 
 .modalBtn:hover {
     background-color: #19ab1e;
+}
+
+/* Button colors */
+
+.btnOrange {
+    background-color: #FF6F20;
+}
+
+.btnGreen {
+    background-color: #4CAF50;
+}
+
+
+.btnGray {
+    background-color: #c4c1c1;
+}
+
+.btnRed {
+    background-color: #f22e07;
+}
+
+.btnOrange:hover,
+.btnOrange:active,
+.btnOrange:focus,
+.btnOrange:disabled {
+    background-color: #fc5f0a;
+    border-color: #fc5f0a;
+    color: white;
+    text-decoration: none;
+}
+
+.btnGreen:hover,
+.btnGreen:active,
+.btnGreen:focus,
+.btnGreen:disabled {
+    background-color: #1f9b23;
+    border-color: #1f9b23;
+    color: white;
+    text-decoration: none;
+}
+
+.btnRed:hover,
+.btnRed:active,
+.btnRed:focus,
+.btnRed:disabled {
+    background-color: #c72303;
+    border-color: #c72303;
+}
+
+.btnGray:hover,
+.btnGray:active,
+.btnGray:focus,
+.btnGray:disabled {
+    background-color: #afacac;
+    border-color: #afacac;
+}
+
+.btnOrange:focus,
+.btnGreen:focus,
+.btnGray:focus,
+.btnRed:focus {
+    outline: none;
 }

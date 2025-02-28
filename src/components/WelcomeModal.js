@@ -43,7 +43,7 @@ const WelcomeModal = ({ onClose }) => {
                 </ul>
 
 
-                <button className={`${btnStyles.mainBtn} ${styles.startNowBtn}`} onClick={handleStartNow}>
+                <button className={`${btnStyles.mainBtn} ${styles.startNowBtn} ${btnStyles.btnOrange}`} onClick={handleStartNow}>
                     Start Now!
                 </button>
 

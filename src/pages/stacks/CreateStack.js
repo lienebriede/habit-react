@@ -99,10 +99,11 @@ const CreateStack = () => {
         <Container className={formStyles.formContainer}>
             <div className={formStyles.formWrapper}>
                 <Form onSubmit={handleSubmit}>
+
                     {/* Habit 1 */}
                     <Form.Group className={formStyles.formControl}>
                         <h4>Habit 1</h4>
-                        <p className={formStyles.tinyText}>Type your habit</p>
+                        <p className={formStyles.tinyText}>Select a habit from the list or type your own</p>
                         <Form.Control
                             as="select"
                             value={selectedHabit1}
@@ -131,7 +132,7 @@ const CreateStack = () => {
                     {/* Habit 2*/}
                     <Form.Group className={formStyles.formControl}>
                         <h4>Habit 2</h4>
-                        <p className={formStyles.tinyText}>Type your habit</p>
+                        <p className={formStyles.tinyText}>Select a habit from the list or type your own</p>
                         <Form.Control
                             as="select"
                             value={selectedHabit2}
@@ -158,13 +159,14 @@ const CreateStack = () => {
 
                     {/* Error Message */}
                     {errors && <p className="text-danger">{errors.name}</p>}
-
-                    <Button className={`${btnStyles.mainBtn} ${btnStyles.signUpBtn}`}
-                        type="submit">
-                        Create
-                    </Button>
+                    <div className="d-flex justify-content-center">
+                        <Button className={`${btnStyles.mainBtn} ${btnStyles.btnOrange} w-100`}
+                            type="submit">
+                            Create
+                        </Button></div>
                 </Form>
             </div>
+
             {/* Modal Confirmation */}
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>

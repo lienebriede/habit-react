@@ -77,7 +77,7 @@ function SignInForm() {
                     ))}
 
                     <Button
-                        className={`${btnStyles.mainBtn} ${btnStyles.signUpBtn}`}
+                        className={`${btnStyles.mainBtn} ${btnStyles.largeBtn} ${btnStyles.btnOrange}`}
                         type="submit">
                         Sign In
                     </Button>

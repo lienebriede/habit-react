@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 import { Container, Button, ListGroup } from "react-bootstrap";
 import styles from "../../styles/MyStacks.module.css";
+import btnStyles from "../../styles/Button.module.css";
+import formStyles from "../../styles/Form.module.css";
 
 import axios from "axios";
 
@@ -42,31 +44,41 @@ const MyStacks = () => {
     };
 
     return (
-        <Container className={styles.stacksContainer}>
+        <Container className={formStyles.formContainer}>
             <div className={styles.stacksWrapper}>
                 <h1>My Habit Stacks</h1>
 
-                <Button onClick={handleCreateStack} className={`${styles.listItem} ${styles.customBtn}`}>
-                    <i class="fa-solid fa-plus"></i>Create a Habit Stack
+                <Button onClick={handleCreateStack} className={`${styles.listItem} ${styles.createHabitBtn}`}>
+                    <i class="fa-solid fa-plus"></i>Create a new habit stack
                 </Button>
 
-                {/* Display stacks list or a message if no stacks */}
+                {/* Stacks list */}
                 {loading ? (
                     <p>Loading...</p>
-                ) : stacks.length === 0 ? (
-                    <p>No habit stacks created yet.</p>
                 ) : (
-                    <ListGroup >
+                    <ListGroup>
                         {stacks.map((stack) => (
-                            <ListGroup.Item className={styles.listItem} key={stack.id}>
-                                <i class="fa-solid fa-cubes-stacked"></i>
-                                {stack.custom_habit1} & {stack.custom_habit2}
-                            </ListGroup.Item>
+                            <div key={stack.id}>
+
+                                {/* Habit Stack */}
+                                <ListGroup.Item className={styles.listItem}>
+                                    <i className="fa-solid fa-cubes-stacked"></i>
+                                    {stack.custom_habit1} & {stack.custom_habit2}
+                                </ListGroup.Item>
+
+                                {/* View Button */}
+                                <div>
+                                    <Link to={`/habit-stacking/${stack.id}`} className={`${btnStyles.mainBtn} ${btnStyles.viewBtn} ${btnStyles.btnGreen}`}>
+                                        <i class="fa-regular fa-eye"></i>
+                                        View
+                                    </Link>
+                                </div>
+                            </div>
                         ))}
                     </ListGroup>
                 )}
             </div>
-        </Container>
+        </Container >
     );
 };
 
