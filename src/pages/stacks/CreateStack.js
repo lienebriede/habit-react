@@ -42,7 +42,7 @@ const CreateStack = () => {
                 }
             } catch (err) {
                 console.error("Error fetching predefined habits:", err);
-                setErrors({ name: "Failed to load predefined habits." });
+                setErrors({ name: "Oops, something went wrong. Please try again." });
                 setPredefinedHabits([]);
             }
         };
@@ -54,22 +54,41 @@ const CreateStack = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Validate
+        setErrors({});
+
+        // Validate habit fields
         if (!customHabit1 && !selectedHabit1) {
-            setErrors({ name: "Please select or enter a habit for Habit 1." });
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                habit1: "Oops, please select or enter a habit for Habit 1."
+            }));
             return;
         }
         if (!customHabit2 && !selectedHabit2) {
-            setErrors({ name: "Please select or enter a habit for Habit 2." });
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                habit2: "Oops, please select or enter a habit for Habit 2."
+            }));
             return;
         }
-
+        if (
+            (selectedHabit1 && selectedHabit2 && selectedHabit1 === selectedHabit2) ||
+            (customHabit1 && customHabit2 && customHabit1 === customHabit2) ||
+            (selectedHabit1 && customHabit2 && selectedHabit1 === customHabit2) ||
+            (selectedHabit2 && customHabit1 && selectedHabit2 === customHabit1)
+        ) {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                sameHabit: "Oops, Habit 1 and Habit 2 can’t be the same. Please choose different habits for both!"
+            }));
+            return;
+        }
         try {
             const token = localStorage.getItem("token");
 
             // Check if token available
             if (!token) {
-                setErrors({ name: "Authorization token is missing." });
+                setErrors({ name: "Oops, it looks like you are not logged in. Please log in and try again." });
                 return;
             }
 
@@ -83,6 +102,22 @@ const CreateStack = () => {
 
             console.log("Submitting habits:", requestData);
 
+            // Check if already exists
+            const response = await axios.post(
+                "https://habit-by-bit-django-afc312512795.herokuapp.com/habit-stacking/",
+                requestData,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            // If backend confirms the stack exists, show error message
+            if (response.data.exists) {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    duplicateStack: "Oops, it looks like this habit stack already exists. Try creating a different combination of habits!"
+                }));
+                return;
+            }
+
             // Send the request
             await axios.post(
                 "https://habit-by-bit-django-afc312512795.herokuapp.com/habit-stacking/",
@@ -91,9 +126,25 @@ const CreateStack = () => {
             );
             setShowModal(true);
         } catch (err) {
-            setErrors({
-                name: err.response?.data?.custom_habit1?.[0] || err.response?.data?.custom_habit2?.[0] || "An error occurred while creating the habit stack."
-            });
+            const backendErrors = err.response?.data || {};
+
+            const newErrors = {};
+            if (backendErrors.custom_habit1) {
+                newErrors.habit1 = backendErrors.custom_habit1[0] || "Oops, something went wrong with Habit 1. Please try again.";
+            }
+            if (backendErrors.custom_habit2) {
+                newErrors.habit2 = backendErrors.custom_habit2[0] || "Oops, something went wrong with Habit 2. Please try again.";
+            }
+            if (backendErrors.name) {
+                newErrors.general = backendErrors.name[0] || "Oops, something went wrong. Please try again.";
+            }
+            if (backendErrors.non_field_errors?.includes("This habit stack already exists.")) {
+                newErrors.duplicateStack = "Oops, it looks like this habit stack already exists. Try creating a different combination of habits!";
+            }
+            if (backendErrors.non_field_errors?.includes("Habit1 and Habit2 cannot be the same.")) {
+                newErrors.sameHabit = "Oops, Habit 1 and Habit 2 can’t be the same. Please choose different habits for both!";
+            }
+            setErrors(newErrors);
         }
     };
 
@@ -105,7 +156,7 @@ const CreateStack = () => {
                     {/* Habit 1 */}
                     <Form.Group className={formStyles.formControl}>
                         <h4>Habit 1</h4>
-                        <p className={formStyles.tinyText}>Select a habit from the list or type your own</p>
+                        <p className="mb-2">Select a habit from the list or type your own</p>
                         <Form.Control
                             as="select"
                             value={selectedHabit1}
@@ -114,7 +165,7 @@ const CreateStack = () => {
                                 setCustomHabit1("");
                             }}
                         >
-                            <option value="">Select a predefined habit</option>
+                            <option value="">Select a habit</option>
                             {predefinedHabits.map((habit) => (
                                 <option key={habit.id} value={habit.id}>
                                     {habit.name}
@@ -131,13 +182,16 @@ const CreateStack = () => {
                                 setSelectedHabit1("");
                             }}
                             disabled={selectedHabit1 !== ""}
+
                         />
+                        {/* Habit missing error */}
+                        {errors && errors.habit1 && <p className={`${formStyles.errorMessage} mb-0`}>{errors.habit1}</p>}
                     </Form.Group>
 
                     {/* Habit 2*/}
                     <Form.Group className={formStyles.formControl}>
                         <h4>Habit 2</h4>
-                        <p className={formStyles.tinyText}>Select a habit from the list or type your own</p>
+                        <p className="mb-2">Select a habit from the list or type your own</p>
                         <Form.Control
                             as="select"
                             value={selectedHabit2}
@@ -146,7 +200,7 @@ const CreateStack = () => {
                                 setCustomHabit2("");
                             }}
                         >
-                            <option value="">Select a predefined habit</option>
+                            <option value="">Select a habit</option>
                             {predefinedHabits.map((habit) => (
                                 <option key={habit.id} value={habit.id}>
                                     {habit.name}
@@ -163,10 +217,16 @@ const CreateStack = () => {
                             }}
                             disabled={selectedHabit2 !== ""}
                         />
+                        {/* Habit missing error */}
+                        {errors && errors.habit2 && <p className={`${formStyles.errorMessage} mb-0`}>{errors.habit2}</p>}
                     </Form.Group>
 
-                    {/* Error Message */}
-                    {errors && <p className="text-danger">{errors.name}</p>}
+                    {/* Error if same habits for both */}
+                    {errors && errors.sameHabit && <p className={`${formStyles.errorMessage} mb-0`}>{errors.sameHabit}</p>}
+                    {/* Error if stack exists */}
+                    {errors && errors.duplicateStack && <p className={`${formStyles.errorMessage} mb-0`} > {errors.duplicateStack}</p>}
+                    {/* General error message */}
+                    {errors && <p className={`${formStyles.errorMessage} mb-0`}>{errors.name}</p>}
                     <div className="d-flex justify-content-center">
 
                         {/* Create Button */}

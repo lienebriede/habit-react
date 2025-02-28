@@ -62,3 +62,11 @@ a:hover {
     font-size: 12px;
     margin-bottom: 5px;
 }
+
+.errorMessage {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
