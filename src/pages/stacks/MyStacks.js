@@ -11,6 +11,7 @@ import axios from "axios";
 const MyStacks = () => {
     const history = useHistory();
     const [stacks, setStacks] = useState([]);
+    const [predefinedHabits, setPredefinedHabits] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -39,6 +40,33 @@ const MyStacks = () => {
         fetchStacks();
     }, [history]);
 
+    // Fetch predefined habits
+    useEffect(() => {
+        const fetchPredefinedHabits = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                if (!token) return;
+
+                const response = await axios.get(
+                    "https://habit-by-bit-django-afc312512795.herokuapp.com/predefined-habits/",
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
+
+                setPredefinedHabits(response.data.results);
+            } catch (error) {
+                console.error("Error fetching predefined habits:", error);
+            }
+        };
+
+        fetchPredefinedHabits();
+    }, []);
+
+    // Convert ids to names
+    const getHabitName = (habitId) => {
+        const habit = predefinedHabits.find(h => h.id === habitId);
+        return habit ? habit.name : "Unknown Habit";
+    };
+
     const handleCreateStack = () => {
         history.push("mystacks/create");
     };
@@ -63,7 +91,8 @@ const MyStacks = () => {
                                 {/* Habit Stack */}
                                 <ListGroup.Item className={styles.listItem}>
                                     <i className="fa-solid fa-cubes-stacked"></i>
-                                    {stack.custom_habit1} & {stack.custom_habit2}
+                                    {stack.custom_habit1 || getHabitName(stack.predefined_habit1)} {" & "}
+                                    {stack.custom_habit2 || getHabitName(stack.predefined_habit2)}
                                 </ListGroup.Item>
 
                                 {/* View Button */}

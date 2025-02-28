@@ -74,10 +74,11 @@ const CreateStack = () => {
             }
 
             const requestData = {
-                predefined_habit1: selectedHabit1 || null,
-                custom_habit1: customHabit1 || null,
-                predefined_habit2: selectedHabit2 || null,
-                custom_habit2: customHabit2 || null,
+                predefined_habit1: selectedHabit1 || "",
+                custom_habit1: customHabit1 || "",
+                predefined_habit2: selectedHabit2 || "",
+                custom_habit2: customHabit2 || "",
+
             };
 
             console.log("Submitting habits:", requestData);
@@ -90,8 +91,9 @@ const CreateStack = () => {
             );
             setShowModal(true);
         } catch (err) {
-            console.error("Error creating habit stack:", err.response?.data);
-            setErrors(err.response?.data || { name: "An error occurred while creating the habit stack." });
+            setErrors({
+                name: err.response?.data?.custom_habit1?.[0] || err.response?.data?.custom_habit2?.[0] || "An error occurred while creating the habit stack."
+            });
         }
     };
 
@@ -108,8 +110,7 @@ const CreateStack = () => {
                             as="select"
                             value={selectedHabit1}
                             onChange={(e) => {
-                                const selectedHabit = e.target.value;
-                                setSelectedHabit1(selectedHabit);
+                                setSelectedHabit1(e.target.value);
                                 setCustomHabit1("");
                             }}
                         >
@@ -125,7 +126,11 @@ const CreateStack = () => {
                             type="text"
                             placeholder="Type here"
                             value={customHabit1}
-                            onChange={(e) => setCustomHabit1(e.target.value)}
+                            onChange={(e) => {
+                                setCustomHabit1(e.target.value);
+                                setSelectedHabit1("");
+                            }}
+                            disabled={selectedHabit1 !== ""}
                         />
                     </Form.Group>
 
@@ -137,8 +142,7 @@ const CreateStack = () => {
                             as="select"
                             value={selectedHabit2}
                             onChange={(e) => {
-                                const selectedHabit = e.target.value;
-                                setSelectedHabit2(selectedHabit);
+                                setSelectedHabit2(e.target.value);
                                 setCustomHabit2("");
                             }}
                         >
@@ -153,17 +157,24 @@ const CreateStack = () => {
                             type="text"
                             placeholder="Type here"
                             value={customHabit2}
-                            onChange={(e) => setCustomHabit2(e.target.value)}
+                            onChange={(e) => {
+                                setCustomHabit2(e.target.value);
+                                setSelectedHabit2("");
+                            }}
+                            disabled={selectedHabit2 !== ""}
                         />
                     </Form.Group>
 
                     {/* Error Message */}
                     {errors && <p className="text-danger">{errors.name}</p>}
                     <div className="d-flex justify-content-center">
+
+                        {/* Create Button */}
                         <Button className={`${btnStyles.mainBtn} ${btnStyles.btnOrange} w-100`}
                             type="submit">
                             Create
-                        </Button></div>
+                        </Button>
+                    </div>
                 </Form>
             </div>
 
