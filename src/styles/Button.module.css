@@ -41,9 +41,58 @@
     margin-top: 5px;
 }
 
+.deleteBtn {
+    border: none;
+    cursor: pointer;
+    background: none;
+    color: #f22e07;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 0;
+    outline: none;
+}
+
+.deleteBtn::after {
+    content: "Delete stack";
+    position: absolute;
+    background-color: rgba(166, 165, 165, 0.75);
+    color: white;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    top: -30px;
+    right: 50%;
+    transform: translateX(50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.deleteBtn:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.deleteBtn:hover,
+.deleteBtn:active,
+.deleteBtn:focus {
+    color: #f22e07;
+    background: none;
+    outline: none;
+    box-shadow: none;
+}
+
 .modalBtn {
     background-color: #4CAF50;
     border: #4CAF50;
+    color: white;
+}
+
+.modalBtnGray {
+    background-color: #c4c1c1;
+    border: #c4c1c1;
     color: white;
 }
 

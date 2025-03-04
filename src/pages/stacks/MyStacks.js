@@ -63,6 +63,7 @@ const MyStacks = () => {
 
     // Convert ids to names
     const getHabitName = (habitId) => {
+        if (!habitId) return "Unknown Habit";
         const habit = predefinedHabits.find(h => h.id === habitId);
         return habit ? habit.name : "Unknown Habit";
     };
@@ -95,11 +96,11 @@ const MyStacks = () => {
                                     {stack.custom_habit2 || getHabitName(stack.predefined_habit2)}
                                 </ListGroup.Item>
 
-                                {/* View Button */}
+                                {/* Edit Button */}
                                 <div>
                                     <Link to={`/habit-stacking/${stack.id}`} className={`${btnStyles.mainBtn} ${btnStyles.viewBtn} ${btnStyles.btnGreen}`}>
-                                        <i class="fa-regular fa-eye"></i>
-                                        View
+                                        <i className="fa-solid fa-pencil"></i>
+                                        Edit
                                     </Link>
                                 </div>
                             </div>

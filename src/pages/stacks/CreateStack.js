@@ -109,21 +109,7 @@ const CreateStack = () => {
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
-            // If backend confirms the stack exists, show error message
-            if (response.data.exists) {
-                setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    duplicateStack: "Oops, it looks like this habit stack already exists. Try creating a different combination of habits!"
-                }));
-                return;
-            }
 
-            // Send the request
-            await axios.post(
-                "https://habit-by-bit-django-afc312512795.herokuapp.com/habit-stacking/",
-                requestData,
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
             setShowModal(true);
         } catch (err) {
             const backendErrors = err.response?.data || {};
