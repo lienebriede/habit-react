@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-import { Container, ListGroup, Button } from "react-bootstrap";
+import { Container, ListGroup, Button, } from "react-bootstrap";
 import "react-calendar/dist/Calendar.css";
 import styles from "../../styles/Dashboard.module.css";
 
@@ -14,6 +14,7 @@ const Dashboard = () => {
     const [predefinedHabits, setPredefinedHabits] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -122,15 +123,44 @@ const Dashboard = () => {
         setSelectedDate(day);
     };
 
+    const toggleCompletion = async (log) => {
+        const today = new Date().toISOString().split("T")[0];
+
+        if (log.date > today) {
+            setErrors({ futureDate: "You cannot complete a habit for a future date." });
+            return;
+        }
+
+        setErrors({});
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            history.push("/login");
+            return;
+        }
+
+        try {
+            await axios.patch(
+                `https://habit-by-bit-django-afc312512795.herokuapp.com/habit-stacking-logs/${log.id}/`,
+                { completed: !log.completed },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            const updatedLogs = { ...habitLogs };
+            updatedLogs[log.habit_stack.id] = updatedLogs[log.habit_stack.id].map(item =>
+                item.id === log.id ? { ...item, completed: !log.completed } : item
+            );
+            setHabitLogs(updatedLogs);
+        } catch (error) {
+            console.error("Error updating habit log:", error);
+        }
+    };
+
     return (
         <Container className={styles.pageContainer}>
             <div className={styles.wrapper}>
-
-                {/* Calendar */}
                 <div className={`${styles.itemContainer} ${styles.todayContainer}`}>
-                    <Button
-                        onClick={() => changeDay(-1)}
-                        className={styles.arrowButton}>
+                    <Button onClick={() => changeDay(-1)} className={styles.arrowButton}>
                         <i className="fa-solid fa-arrow-left"></i>
                     </Button>
                     <h1 className={styles.todayText}>
@@ -142,14 +172,12 @@ const Dashboard = () => {
                                 year: "numeric",
                             }).format(selectedDate)}
                     </h1>
-                    <Button
-                        onClick={() => changeDay(1)}
-                        className={styles.arrowButton}>
+                    <Button onClick={() => changeDay(1)} className={styles.arrowButton}>
                         <i className="fa-solid fa-arrow-right"></i>
                     </Button>
                 </div>
 
-                <div className={`${styles.weekContainer}`}>
+                <div className={styles.weekContainer}>
                     {getWeekDays().map((day) => (
                         <Button
                             key={day}
@@ -162,7 +190,6 @@ const Dashboard = () => {
                     ))}
                 </div>
 
-                {/* Habit logs */}
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
@@ -170,17 +197,25 @@ const Dashboard = () => {
                         {getLogsForSelectedDate().length === 0 ? (
                             <p className={styles.noLogsText}>You haven't scheduled any habit stacks for today yet!</p>
                         ) : (
-                            getLogsForSelectedDate().map(log => {
-                                return (
-                                    <ListGroup.Item key={log.id} className={styles.stackItem}>
+                            getLogsForSelectedDate().map(log => (
+                                <ListGroup.Item key={log.id} className={styles.stackItem}>
+                                    <div className={styles.habitContainer}>
                                         {log.habit_stack.custom_habit1 || getHabitName(log.habit_stack.predefined_habit1)} & {" "}
                                         {log.habit_stack.custom_habit2 || getHabitName(log.habit_stack.predefined_habit2)}
-                                    </ListGroup.Item>
-                                );
-                            })
+                                    </div>
+                                    <p className={log.completed ? styles.completedText : styles.notCompletedText}>
+                                        {log.completed ? "Completed!" : "Not completed!"}
+                                    </p>
+                                    <div className={styles.tickboxContainer} onClick={() => toggleCompletion(log)}>
+                                        <i className={`fa-solid fa-circle-check ${log.completed ? styles.checked : styles.unchecked}`} />
+                                    </div>
+                                </ListGroup.Item>
+                            ))
                         )}
                     </ListGroup>
-                )}
+                )}<div>
+                    {errors.futureDate && <p className={styles.errorMessage}>{errors.futureDate}</p>}
+                </div>
             </div>
         </Container>
     );
