@@ -17,12 +17,14 @@ const Dashboard = () => {
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
+        // Redirect to login page if no token is found
         const token = localStorage.getItem("token");
         if (!token) {
             history.push("/login");
             return;
         }
 
+        // Fetch habit stacks data
         const fetchStacks = async () => {
             try {
                 const response = await axios.get(
@@ -40,26 +42,34 @@ const Dashboard = () => {
             }
         };
 
+        // Fetch habit logs, handle pagination
         const fetchHabitLogs = async () => {
             try {
-                const response = await axios.get(
-                    "https://habit-by-bit-django-afc312512795.herokuapp.com/habit-stacking-logs/",
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
+                const token = localStorage.getItem("token");
+                let allLogs = [];
+                let nextPage = "https://habit-by-bit-django-afc312512795.herokuapp.com/habit-stacking-logs/";
+
+                while (nextPage) {
+                    const response = await axios.get(nextPage, {
+                        headers: { Authorization: `Bearer ${token}` },
+                    });
+
+                    allLogs = [...allLogs, ...response.data.results];
+                    nextPage = response.data.next;
+                }
+
+                // Group logs by habit stack
                 let logsData = {};
-                response.data.results.forEach((log) => {
+                allLogs.forEach((log) => {
                     const stackId = log.habit_stack.id;
                     if (!logsData[stackId]) {
-                        logsData[stackId] = new Map();
+                        logsData[stackId] = [];
                     }
-                    logsData[stackId].set(log.id, log);
-                });
-
-                Object.keys(logsData).forEach(stackId => {
-                    logsData[stackId] = Array.from(logsData[stackId].values());
+                    logsData[stackId].push(log);
                 });
 
                 setHabitLogs(logsData);
+                console.log("Fetched all habit logs:", logsData);
             } catch (error) {
                 console.error("Error fetching habit logs:", error);
             } finally {
@@ -88,15 +98,18 @@ const Dashboard = () => {
         fetchData();
     }, [history]);
 
+    // Get habit name by id
     const getHabitName = (habitId) => {
         if (!habitId) return "Unknown Habit";
         const habit = predefinedHabits.find(h => h.id === habitId);
         return habit ? habit.name : "Unknown Habit";
     };
 
+    // Get logs for the selected date
     const getLogsForSelectedDate = () => {
         const formattedDate = selectedDate.toISOString().split("T")[0];
         let logsForDate = [];
+
         Object.values(habitLogs).forEach(logs => {
             logs.forEach(log => {
                 if (log.date === formattedDate) {
@@ -104,6 +117,7 @@ const Dashboard = () => {
                 }
             });
         });
+        console.log("Logs for selected date:", formattedDate, logsForDate);
         return logsForDate;
     };
 
@@ -128,6 +142,7 @@ const Dashboard = () => {
         setSelectedDate(day);
     };
 
+    // Completion status
     const toggleCompletion = async (log) => {
         const today = new Date().toISOString().split("T")[0];
 
