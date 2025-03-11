@@ -30,6 +30,11 @@ const Dashboard = () => {
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
                 setStacks(response.data.results);
+
+                console.log('Habit Stacks:', response.data.results);
+                response.data.results.forEach(stack => {
+                    console.log(`Stack ID: ${stack.id}`);
+                });
             } catch (error) {
                 console.error("Error fetching stacks:", error);
             }
@@ -159,11 +164,11 @@ const Dashboard = () => {
     return (
         <Container className={styles.pageContainer}>
             <div className={styles.wrapper}>
-                <div className={`${styles.itemContainer} ${styles.todayContainer}`}>
+                <div className={`${styles.itemContainer} ${styles.timeContainer}`}>
                     <Button onClick={() => changeDay(-1)} className={styles.arrowButton}>
                         <i className="fa-solid fa-arrow-left"></i>
                     </Button>
-                    <h1 className={styles.todayText}>
+                    <h1 className={styles.timeText}>
                         {selectedDate.toDateString() === new Date().toDateString()
                             ? "Today"
                             : new Intl.DateTimeFormat("en-GB", {

@@ -14,6 +14,7 @@ import WelcomeModal from './components/WelcomeModal';
 import MyStacks from "./pages/stacks/MyStacks";
 import CreateStack from "./pages/stacks/CreateStack";
 import StackDetail from "./pages/stacks/StackDetail";
+import ProgressPage from "./pages/dashboard/ProgressPage";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -65,7 +66,7 @@ function App() {
             <PrivateRoute exact path="/mystacks" component={MyStacks} />
             <PrivateRoute exact path="/mystacks/create" component={CreateStack} />
             <PrivateRoute exact path="/habit-stacking/:id" component={StackDetail} />
-
+            <PrivateRoute exact path="/habit-stacking/:id/progress" component={ProgressPage} />
             {/* Redirect everything else to login */}
             <Route render={() => <Redirect to="/signin" />} />
           </Switch>

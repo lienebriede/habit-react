@@ -18,13 +18,13 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.todayContainer {
+.timeContainer {
     justify-content: space-between;
     margin-bottom: 15px;
     margin-top: 15px;
 }
 
-.todayText {
+.timeText {
     margin: 0;
     font-size: 20px;
     font-weight: 500;
@@ -166,4 +166,99 @@
     padding: 10px;
     border-radius: 5px;
     border: none;
+}
+
+/* Progress page specific */
+
+.progressContainer {
+    display: flex;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.progressStackContainer {
+    align-items: start;
+}
+
+.progressStackContainer i {
+    padding-top: 18px;
+}
+
+.progressSectionsContainer {
+    justify-content: center;
+}
+
+.progressTitle {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.calendarWrapper {
+    width: 80%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.calendarGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    justify-content: center;
+    gap: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.calendarContainer {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.calendarDay {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.dayCircle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.completedCircle {
+    background-color: rgba(100, 226, 104, 0.4);
+}
+
+.circle {
+    border: solid rgba(124, 130, 133, 0.1);
 }
