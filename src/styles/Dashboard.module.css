@@ -172,19 +172,35 @@
 
 .progressContainer {
     display: flex;
+    flex-direction: column;
     background-color: white;
+    align-items: center;
+    text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     margin-top: 15px;
     margin-bottom: 15px;
+    width: 100%;
 }
 
 .progressStackContainer {
-    align-items: start;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    width: 100%;
+    flex-wrap: wrap;
 }
 
-.progressStackContainer i {
-    padding-top: 18px;
+.progressStackTitle {
+    font-size: 18px;
+    font-weight: 500;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    padding-bottom: 20px;
+    white-space: normal;
+    flex-grow: 1;
 }
 
 .progressSectionsContainer {
@@ -192,73 +208,94 @@
 }
 
 .progressTitle {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 30px;
+    padding-bottom: 20px;
     font-size: 18px;
     font-weight: 500;
 }
 
-.calendarWrapper {
-    width: 80%;
-    max-width: 600px;
+.progressNumbers {
+    font-size: 18px;
+    font-weight: 600;
+    padding-bottom: 25px;
+}
+
+.numberOrange {
+    color: #FF6F20;
+}
+
+.numberGreen {
+    color: #4CAF50;
+}
+
+.milestoneList {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 5px;
+}
+
+.milestoneItem {
+    font-size: 16px;
+    color: #444;
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin: 0 auto;
 }
+
+.milestoneText {
+    padding-bottom: 10px;
+}
+
+.milestoneDate {
+    font-size: 14px;
+    color: #888;
+    padding-bottom: 15px;
+}
+
+/* Calendar styles */
 
 .calendarGrid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     width: 100%;
     max-width: 600px;
-    text-align: center;
-    justify-content: center;
-    gap: 15px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    gap: 10px;
+    padding: 10px 0;
 }
 
 .calendarContainer {
     width: 100%;
+    max-width: 600px;
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border-radius: 15px;
     background-color: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .calendarDay {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 16px;
-    padding: 5px;
-}
-
-.dayCircle {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    background-color: rgb(229, 231, 235, 0.4);
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #3a3b3c;
 }
 
-.completedCircle {
-    background-color: rgba(100, 226, 104, 0.4);
+.completedDay {
+    background-color: #4CAF50;
+    color: white;
 }
 
-.circle {
-    border: solid rgba(124, 130, 133, 0.1);
+.notCompletedDay {
+    background-color: rgba(229, 231, 235, 0.4);
 }

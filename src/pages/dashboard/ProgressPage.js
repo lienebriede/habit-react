@@ -15,6 +15,7 @@ const ProgressPage = () => {
     const [predefinedHabits, setPredefinedHabits] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [progress, setProgress] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -62,9 +63,24 @@ const ProgressPage = () => {
             }
         };
 
+        const fetchProgress = async () => {
+            try {
+                const response = await axios.get(
+                    `https://habit-by-bit-django-afc312512795.herokuapp.com/habit-stacking/${id}/progress/`,
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
+                setProgress(response.data);
+            } catch (error) {
+                console.error("Error fetching progress data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchHabitStack();
         fetchHabitLogs();
         fetchPredefinedHabits();
+        fetchProgress();
     }, [history, id]);
 
     const getHabitName = (habitId) => {
@@ -98,6 +114,12 @@ const ProgressPage = () => {
         return days;
     };
 
+    // Highlights the number inside the milestone message
+    const highlightNumbers = (text) => {
+        return text.replace(/(\d+)/g, '<span style="color: #4CAF50; font-size: 18px; font-weight: 600;">$1</span>');
+    };
+
+
     return (
         <Container className={styles.pageContainer}>
             <div className={styles.wrapper}>
@@ -105,54 +127,84 @@ const ProgressPage = () => {
                 {/* Habit Stack */}
                 <div className={`${styles.progressContainer} ${styles.progressStackContainer}`}>
                     <Link
-                        to="/dashboard" >
+                        to="/dashboard">
                         <i class="fa-solid fa-arrow-left"></i>
                     </Link>
                     {habitStack && (
-                        <p className={styles.progressTitle}>{habitStack.custom_habit1 || getHabitName(habitStack.predefined_habit1)} & {habitStack.custom_habit2 || getHabitName(habitStack.predefined_habit2)}</p>
+                        <p className={styles.progressStackTitle}>{habitStack.custom_habit1 || getHabitName(habitStack.predefined_habit1)} & {habitStack.custom_habit2 || getHabitName(habitStack.predefined_habit2)}</p>
                     )}
                 </div>
 
                 {/* Calendar */}
-                <div className={styles.calendarWrapper}>
-                    <div className={`${styles.itemContainer} ${styles.timeContainer}`}>
-                        <Button onClick={() => changeMonth(-1)} className={styles.arrowButton}>
-                            <i className="fa-solid fa-arrow-left"></i>
-                        </Button>
-                        <p>
-                            {selectedDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
-                        </p>
-                        <Button onClick={() => changeMonth(1)} className={styles.arrowButton}>
-                            <i className="fa-solid fa-arrow-right"></i>
-                        </Button>
-                    </div>
+                <div className={`${styles.itemContainer} ${styles.timeContainer}`}>
+                    <Button onClick={() => changeMonth(-1)} className={styles.arrowButton}>
+                        <i className="fa-solid fa-arrow-left"></i>
+                    </Button>
+                    <p>
+                        {selectedDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
+                    </p>
+                    <Button onClick={() => changeMonth(1)} className={styles.arrowButton}>
+                        <i className="fa-solid fa-arrow-right"></i>
+                    </Button>
+                </div>
 
-                    <div className={styles.calendarContainer}>
-                        <div className={styles.calendarGrid}>
-                            {getDaysInMonth(selectedDate.getMonth(), selectedDate.getFullYear()).map((day, index) => {
-                                const dayString = day.toISOString().split("T")[0];
-                                const logForDay = habitLogs.find(log => log.date === dayString);
-                                const isCompleted = logForDay && logForDay.completed;
-                                return (
-                                    <div key={index} className={styles.calendarDay}>
-                                        <div className={`${styles.dayCircle} ${isCompleted ? styles.completedCircle : styles.circle}`} />
-                                        <span>{day.getDate()}</span>
-                                    </div>
-                                );
-                            })}
-                        </div>
+                <div className={styles.calendarContainer}>
+                    <div className={styles.calendarGrid}>
+                        {getDaysInMonth(selectedDate.getMonth(), selectedDate.getFullYear()).map((day, index) => {
+                            const dayString = day.toISOString().split("T")[0];
+                            const logForDay = habitLogs.find(log => log.date === dayString);
+                            const isCompleted = logForDay && logForDay.completed;
+                            return (
+                                <div key={index} className={`${styles.calendarDay} ${isCompleted ? styles.completedDay : styles.notCompletedDay}`}>
+                                    <span>{day.getDate()}</span>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
 
                 {/* Progress Sections */}
                 <div className={`${styles.progressContainer} ${styles.progressSectionsContainer}`}>
-                    <p className={styles.progressTitle}><i class="fa-solid fa-chart-line"></i>Streaks</p>
+                    <p className={styles.progressTitle}>
+                        <i class="fa-solid fa-chart-line"></i>Streaks
+                    </p>
+                    <p className={`${styles.progressNumbers} ${styles.numberOrange}`}>
+                        <span className={styles.numberOrange}>
+                            {progress?.current_streak ?? 0}
+                        </span>
+                        <span> DAYS</span>
+                    </p>
+                </div>
+
+                <div className={`${styles.progressContainer} ${styles.progressSectionsContainer}`}>
+                    <p className={styles.progressTitle}>
+                        <i class="fa-solid fa-trophy"></i>Milestones
+                    </p>
+                    {progress?.milestones?.length > 0 ? (
+                        <ul className={styles.milestoneList}>
+                            {progress.milestones.map((milestone, index) => (
+                                <li key={index} className={styles.milestoneItem}>
+                                    <span className={styles.milestoneText} dangerouslySetInnerHTML={{ __html: highlightNumbers(milestone.description) }}></span>
+                                    <span className={styles.milestoneDate}>{milestone.date_achieved}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p className={styles.milestoneItem}>
+                            <span>
+                                No milestones achieved yet.
+                            </span>
+                            <span>Keep it up!</span>
+                        </p>
+                    )}
                 </div>
                 <div className={`${styles.progressContainer} ${styles.progressSectionsContainer}`}>
-                    <p className={styles.progressTitle}><i class="fa-solid fa-trophy"></i>Milestones</p>
-                </div>
-                <div className={`${styles.progressContainer} ${styles.progressSectionsContainer}`}>
-                    <p className={styles.progressTitle}><i class="fa-solid fa-circle-check"></i>Total Completions</p>
+                    <p className={styles.progressTitle}>
+                        <i class="fa-solid fa-circle-check"></i>Total Completions
+                    </p>
+                    <p className={`${styles.progressNumbers} ${styles.numberGreen}`}>
+                        {progress?.total_completions ?? 0}
+                    </p>
                 </div>
             </div>
         </Container>
