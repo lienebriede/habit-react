@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-import { Container, ListGroup, Button, } from "react-bootstrap";
+import { Container, ListGroup, Button, Modal } from "react-bootstrap";
 import "react-calendar/dist/Calendar.css";
 import styles from "../../styles/Dashboard.module.css";
 
@@ -15,6 +15,9 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [errors, setErrors] = useState({});
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [streakMessage, setStreakMessage] = useState('');
+    const [milestoneMessage, setMilestoneMessage] = useState('');
 
     useEffect(() => {
         // Redirect to login page if no token is found
@@ -160,12 +163,29 @@ const Dashboard = () => {
         }
 
         try {
-            await axios.patch(
+            const updatedLog = await axios.patch(
                 `https://habit-by-bit-django-afc312512795.herokuapp.com/habit-stacking-logs/${log.id}/`,
                 { completed: !log.completed },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
+            const { milestone_message, streak_message } = updatedLog.data;
+
+            // Set messages
+            if (milestone_message) {
+                setMilestoneMessage(milestone_message);
+                setStreakMessage('');
+            } else if (streak_message) {
+                setStreakMessage(streak_message);
+                setMilestoneMessage('');
+            }
+
+            // Show success modal if there are messages
+            if (milestone_message || streak_message) {
+                setShowSuccessModal(true);
+            }
+
+            // Update habit log
             const updatedLogs = { ...habitLogs };
             updatedLogs[log.habit_stack.id] = updatedLogs[log.habit_stack.id].map(item =>
                 item.id === log.id ? { ...item, completed: !log.completed } : item
@@ -237,6 +257,20 @@ const Dashboard = () => {
                     {errors.futureDate && <p className={styles.errorMessage}>{errors.futureDate}</p>}
                 </div>
             </div>
+
+            {/* Streak & Milestone message */}
+            <Modal show={showSuccessModal} onHide={() => setShowSuccessModal(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Congrats!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {streakMessage && !milestoneMessage ? (
+                        <p>{streakMessage}</p>
+                    ) : milestoneMessage ? (
+                        <p>{milestoneMessage}</p>
+                    ) : null}
+                </Modal.Body>
+            </Modal>
         </Container>
     );
 };
