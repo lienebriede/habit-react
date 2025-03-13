@@ -35,11 +35,6 @@ const Dashboard = () => {
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
                 setStacks(response.data.results);
-
-                console.log('Habit Stacks:', response.data.results);
-                response.data.results.forEach(stack => {
-                    console.log(`Stack ID: ${stack.id}`);
-                });
             } catch (error) {
                 console.error("Error fetching stacks:", error);
             }
@@ -49,7 +44,7 @@ const Dashboard = () => {
         const fetchHabitLogs = async () => {
             try {
                 const token = localStorage.getItem("token");
-                let allLogs = [];
+                let allLogs = new Map();
                 let nextPage = "https://habit-by-bit-django-afc312512795.herokuapp.com/habit-stacking-logs/";
 
                 while (nextPage) {
@@ -57,13 +52,16 @@ const Dashboard = () => {
                         headers: { Authorization: `Bearer ${token}` },
                     });
 
-                    allLogs = [...allLogs, ...response.data.results];
+                    response.data.results.forEach(log => {
+                        allLogs.set(log.id, log);
+                    });
+
                     nextPage = response.data.next;
                 }
 
                 // Group logs by habit stack
                 let logsData = {};
-                allLogs.forEach((log) => {
+                Array.from(allLogs.values()).forEach(log => {
                     const stackId = log.habit_stack.id;
                     if (!logsData[stackId]) {
                         logsData[stackId] = [];
@@ -108,20 +106,33 @@ const Dashboard = () => {
         return habit ? habit.name : "Unknown Habit";
     };
 
+    // Check stack's active_until
+    const isExpiringSoon = (activeUntil) => {
+        const today = new Date();
+        const endDate = new Date(activeUntil);
+
+        today.setHours(0, 0, 0, 0);
+        endDate.setHours(0, 0, 0, 0);
+
+        const diffInDays = (endDate - today) / (1000 * 3600 * 24);
+
+        return diffInDays >= 0 && diffInDays <= 2;
+    };
+
     // Get logs for the selected date
     const getLogsForSelectedDate = () => {
         const formattedDate = selectedDate.toISOString().split("T")[0];
-        let logsForDate = [];
+        let logsForDate = new Map();
 
         Object.values(habitLogs).forEach(logs => {
             logs.forEach(log => {
                 if (log.date === formattedDate) {
-                    logsForDate.push(log);
+                    logsForDate.set(log.id, log);
                 }
             });
         });
-        console.log("Logs for selected date:", formattedDate, logsForDate);
-        return logsForDate;
+        console.log("Logs for selected date:", formattedDate, Array.from(logsForDate.values()));
+        return Array.from(logsForDate.values());
     };
 
     const changeDay = (direction) => {
@@ -237,23 +248,40 @@ const Dashboard = () => {
                         {getLogsForSelectedDate().length === 0 ? (
                             <p className={styles.noLogsText}>You haven't scheduled any habit stacks for today yet!</p>
                         ) : (
-                            getLogsForSelectedDate().map(log => (
-                                <ListGroup.Item key={log.id} className={styles.stackItem}>
-                                    <div className={styles.habitContainer}>
-                                        {log.habit_stack.custom_habit1 || getHabitName(log.habit_stack.predefined_habit1)} & {" "}
-                                        {log.habit_stack.custom_habit2 || getHabitName(log.habit_stack.predefined_habit2)}
-                                    </div>
-                                    <p className={log.completed ? styles.completedText : styles.notCompletedText}>
-                                        {log.completed ? "Completed!" : "Not completed!"}
-                                    </p>
-                                    <div className={styles.tickboxContainer} onClick={() => toggleCompletion(log)}>
-                                        <i className={`fa-solid fa-circle-check ${log.completed ? styles.checked : styles.unchecked}`} />
-                                    </div>
-                                </ListGroup.Item>
-                            ))
+                            getLogsForSelectedDate().map(log => {
+                                // Check if expiry is soon
+                                const isExpiring = isExpiringSoon(log.habit_stack.active_until);
+
+                                return (
+                                    <React.Fragment key={log.id}>
+                                        <ListGroup.Item className={styles.stackItem}>
+                                            <div className={styles.habitContainer}>
+                                                {log.habit_stack.custom_habit1 || getHabitName(log.habit_stack.predefined_habit1)} & {" "}
+                                                {log.habit_stack.custom_habit2 || getHabitName(log.habit_stack.predefined_habit2)}
+                                            </div>
+                                            <p className={log.completed ? styles.completedText : styles.notCompletedText}>
+                                                {log.completed ? "Completed!" : "Not completed!"}
+                                            </p>
+                                            <div className={styles.tickboxContainer} onClick={() => toggleCompletion(log)}>
+                                                <i className={`fa-solid fa-circle-check ${log.completed ? styles.checked : styles.unchecked}`} />
+                                            </div>
+                                        </ListGroup.Item>
+
+                                        {/* Reminder Message */}
+                                        {isExpiring && (
+                                            <div key={`reminder-${log.id}`} className={styles.reminderMessageContainer}>
+                                                <div className={styles.reminderMessage}>
+                                                    This habit stack is expiring soon. Go to "My Stacks" to extend it!
+                                                </div>
+                                            </div>
+                                        )}
+                                    </React.Fragment>
+                                );
+                            })
                         )}
                     </ListGroup>
-                )}<div>
+                )}
+                <div>
                     {errors.futureDate && <p className={styles.errorMessage}>{errors.futureDate}</p>}
                 </div>
             </div>

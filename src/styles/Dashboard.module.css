@@ -299,3 +299,13 @@
 .notCompletedDay {
     background-color: rgba(229, 231, 235, 0.4);
 }
+
+.reminderMessage {
+    font-size: 0.8rem;
+    font-weight: 500;
+    background-color: #FF6F20;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    margin-top: 3px;
+}
