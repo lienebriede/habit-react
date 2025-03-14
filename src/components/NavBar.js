@@ -45,24 +45,6 @@ const NavBar = () => {
                             </NavLink>
                             <Dropdown.Divider />
                             <NavLink
-                                to="/signup"
-                                onClick={toggleDropdown}
-                                className={styles.dropdownItem}
-                                activeClassName={styles.activeDropdownItem}
-                            >
-                                Register
-                            </NavLink>
-                            <Dropdown.Divider />
-                            <NavLink
-                                to="/signin"
-                                onClick={toggleDropdown}
-                                className={styles.dropdownItem}
-                                activeClassName={styles.activeDropdownItem}
-                            >
-                                Log in
-                            </NavLink>
-                            <Dropdown.Divider />
-                            <NavLink
                                 to="/logout"
                                 onClick={toggleDropdown}
                                 className={styles.dropdownItem}

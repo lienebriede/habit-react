@@ -15,34 +15,13 @@
     width: 100%;
 }
 
-.editBtn {
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-.editBtn i {
-    padding-left: 0;
-    font-size: 1rem;
-}
-
-.viewBtn {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-right: 10px;
-}
-
-.viewBtn i {
-    padding-left: 0;
-    font-size: 1rem;
-}
-
 .editStackBtn {
     margin: 5px;
-    padding: 5px;
+    padding: 0px;
     padding-right: 10px;
 }
 
-.smallBtn {
+.modalBtn {
     padding: 8px;
     font-size: 1rem;
     margin-top: 5px;
@@ -91,22 +70,6 @@
     box-shadow: none;
 }
 
-.modalBtn {
-    background-color: #4CAF50;
-    border: #4CAF50;
-    color: white;
-}
-
-.modalBtnGray {
-    background-color: #c4c1c1;
-    border: #c4c1c1;
-    color: white;
-}
-
-.modalBtn:hover {
-    background-color: #19ab1e;
-}
-
 /* Button colors */
 
 .btnOrange {
@@ -130,8 +93,8 @@
 .btnOrange:active,
 .btnOrange:focus,
 .btnOrange:disabled {
-    background-color: #fc5f0a;
-    border-color: #fc5f0a;
+    background-color: #ee5909;
+    border-color: #ee5909;
     color: white;
     text-decoration: none;
 }

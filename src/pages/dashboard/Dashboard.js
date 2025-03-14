@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 import { Container, ListGroup, Button, Modal } from "react-bootstrap";
 import "react-calendar/dist/Calendar.css";
 import styles from "../../styles/Dashboard.module.css";
+import btnStyles from "../../styles/Button.module.css";
 
 import axios from "axios";
 
@@ -275,6 +276,14 @@ const Dashboard = () => {
                                                 </div>
                                             </div>
                                         )}
+
+                                        {/* Progress Button */}
+                                        <Link to={`/habit-stacking/${log.habit_stack.id}/progress`}>
+                                            <Button className={`${btnStyles.mainBtn} ${btnStyles.editStackBtn} ${btnStyles.btnOrange}`}>
+                                                <i class="fa-solid fa-chart-simple"></i>
+                                                View Progress
+                                            </Button>
+                                        </Link>
                                     </React.Fragment>
                                 );
                             })

@@ -125,7 +125,7 @@ const ProgressPage = () => {
             <div className={styles.wrapper}>
 
                 {/* Habit Stack */}
-                <div className={`${styles.progressContainer} ${styles.progressStackContainer}`}>
+                <div className={`${styles.progressStackContainer}`}>
                     <Link
                         to="/dashboard">
                         <i class="fa-solid fa-arrow-left"></i>
@@ -190,7 +190,7 @@ const ProgressPage = () => {
                             ))}
                         </ul>
                     ) : (
-                        <p className={styles.milestoneItem}>
+                        <p className={styles.milestoneText}>
                             <span>
                                 No milestones achieved yet.
                             </span>

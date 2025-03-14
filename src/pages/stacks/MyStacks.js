@@ -33,14 +33,14 @@ const MyStacks = () => {
                 });
 
                 // For testing
-                /*const testStacks = response.data.results.map((stack) => {
+                const testStacks = response.data.results.map((stack) => {
                     const oneDayLater = new Date();
                     oneDayLater.setDate(oneDayLater.getDate() + 1);
                     return { ...stack, active_until: oneDayLater.toISOString() };
                 });
 
-                setStacks(testStacks);*/
-                setStacks(response.data.results);
+                setStacks(testStacks);
+                //setStacks(response.data.results);
             } catch (error) {
                 console.error("Error fetching stacks:", error);
             } finally {
@@ -151,10 +151,16 @@ const MyStacks = () => {
 
                                 {/* Habit Stack */}
                                 <ListGroup.Item className={`${styles.listItem} pt-4`}>
-                                    <div><i className="fa-solid fa-cubes-stacked"></i>
-                                        {stack.custom_habit1 || getHabitName(stack.predefined_habit1)} {" & "}
-                                        {stack.custom_habit2 || getHabitName(stack.predefined_habit2)}</div>
-                                    <p className={styles.stackDate}>Active until: {stack.active_until || "N/A"}</p>
+                                    <div className={styles.habitStack}>
+                                        <i className="fa-solid fa-cubes-stacked"></i>
+                                        <span className={styles.habitName}>
+                                            {stack.custom_habit1 || getHabitName(stack.predefined_habit1)} {" & "}
+                                            {stack.custom_habit2 || getHabitName(stack.predefined_habit2)}
+                                        </span>
+                                    </div>
+                                    <p className={styles.stackDate}>
+                                        Active until: {stack.active_until ? new Date(stack.active_until).toLocaleDateString() : "N/A"}
+                                    </p>
                                 </ListGroup.Item>
 
                                 {/* Buttons */}

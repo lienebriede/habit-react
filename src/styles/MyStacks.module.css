@@ -1,12 +1,10 @@
-/* My Stacks page */
-
 .stacksWrapper {
     width: 100%;
     max-width: 600px;
 }
 
 .listItem {
-    margin-top: 30px;
+    margin-top: 10px;
     margin-bottom: 0;
     height: 100px;
     border-radius: 10px;
@@ -18,9 +16,22 @@
     border-radius: 10px !important;
 }
 
+.habitStack {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.habitName {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    flex: 1;
+}
+
 .stackDate {
     font-size: 10px;
-    padding-left: 35px;
+    padding-left: 38px;
 }
 
 
@@ -80,11 +91,4 @@ i {
 
 .dropdownItem:hover {
     color: #FF6F20;
-}
-
-/* Edit Stacks page */
-
-.inputBtnWrapper {
-    display: flex;
-    gap: 10px;
 }

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 
 import { Container, Button, Form, Modal } from "react-bootstrap";
-import styles from "../../styles/MyStacks.module.css";
 import formStyles from "../../styles/Form.module.css";
 import btnStyles from "../../styles/Button.module.css";
 
@@ -116,7 +115,7 @@ const StackDetail = () => {
     return (
         <Container className={formStyles.formContainer}>
             <div className={formStyles.formWrapper}>
-                <Button className={`${btnStyles.deleteBtn} `} onClick={() => setShowDeleteModal(true)}>
+                <Button className={`${btnStyles.deleteBtn}`} onClick={() => setShowDeleteModal(true)}>
                     <i className="fa-solid fa-trash-can"></i>
                 </Button>
                 <Link to="/mystacks" className={``}><i class="fa-solid fa-arrow-left"></i>
@@ -185,8 +184,8 @@ const StackDetail = () => {
                 </Modal.Header>
                 <Modal.Body>Are you sure you want to delete this habit stack?</Modal.Body>
                 <Modal.Footer>
-                    <Button className={`${btnStyles.mainBtn} ${btnStyles.smallBtn} ${btnStyles.btnGray}`} onClick={() => setShowDeleteModal(false)}>Cancel</Button>
-                    <Button className={`${btnStyles.mainBtn} ${btnStyles.smallBtn} ${btnStyles.btnRed}`} onClick={handleDelete}>Delete</Button>
+                    <Button className={`${btnStyles.mainBtn} ${btnStyles.modalBtn} ${btnStyles.btnGray}`} onClick={() => setShowDeleteModal(false)}>Cancel</Button>
+                    <Button className={`${btnStyles.mainBtn} ${btnStyles.modalBtn} ${btnStyles.btnRed}`} onClick={handleDelete}>Delete</Button>
                 </Modal.Footer>
             </Modal>
         </Container >
