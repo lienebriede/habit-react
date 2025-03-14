@@ -7,13 +7,14 @@ export const useProfile = () => useContext(ProfileContext);
 
 export const ProfileProvider = ({ children }) => {
     const [profile, setProfile] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
     const history = useHistory();
 
     const handleLogout = useCallback(() => {
         console.log("Logging out user...");
         localStorage.removeItem("token");
         localStorage.removeItem("refresh_token");
-        localStorage.removeItem("hasSeenWelcomeModal");
+        setIsAuthenticated(false);
         history.push("/signin");
     }, [history]);
 
@@ -44,17 +45,17 @@ export const ProfileProvider = ({ children }) => {
         }
     }, [handleLogout]);
 
-    const fetchProfile = useCallback(async (retry = true) => {
+    const fetchProfile = useCallback(async () => {
+        let token = localStorage.getItem("token");
+        if (!token) {
+            console.error("No token found! Redirecting...");
+            handleLogout();
+            return;
+        }
+
+        console.log("Stored Token:", token);
+
         try {
-            let token = localStorage.getItem("token");
-            if (!token) {
-                console.error("No token found! Redirecting...");
-                handleLogout();
-                return;
-            }
-
-            console.log("Stored Token:", token);
-
             const userResponse = await axios.get(
                 "https://habit-by-bit-django-afc312512795.herokuapp.com/dj-rest-auth/user/",
                 { headers: { Authorization: `Bearer ${token}` } }
@@ -79,11 +80,11 @@ export const ProfileProvider = ({ children }) => {
             console.log("Profile Data:", response.data);
             setProfile(response.data);
         } catch (error) {
-            if (error.response?.status === 401 && retry) {
+            if (error.response?.status === 401) {
                 console.warn("Token expired, attempting refresh...");
                 const newToken = await refreshToken();
                 if (newToken) {
-                    fetchProfile(false);
+                    fetchProfile();
                 }
             } else {
                 console.error("Error fetching profile:", error.response?.status);
@@ -93,8 +94,10 @@ export const ProfileProvider = ({ children }) => {
     }, [handleLogout, refreshToken]);
 
     useEffect(() => {
-        fetchProfile();
-    }, [fetchProfile]);
+        if (isAuthenticated) {
+            fetchProfile();
+        }
+    }, [isAuthenticated, fetchProfile]);
 
     return (
         <ProfileContext.Provider value={{ profile, setProfile }}>

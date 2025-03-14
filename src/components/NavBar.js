@@ -18,7 +18,7 @@ const NavBar = () => {
     return (
         <Navbar className={styles.navBar} expand="md" fixed="top">
             <Container fluid className="d-flex justify-content-between align-items-center">
-                <Navbar.Brand as={NavLink} to="/">
+                <Navbar.Brand as={NavLink} to="/dashboard">
                     <img src={logo} alt="Logo" height="45" />
                 </Navbar.Brand>
 
