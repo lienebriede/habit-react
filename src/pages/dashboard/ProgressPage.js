@@ -3,7 +3,8 @@ import { useHistory, useParams, Link } from "react-router-dom";
 
 import { Container, Button } from "react-bootstrap";
 import "react-calendar/dist/Calendar.css";
-import styles from "../../styles/Dashboard.module.css";
+import styles from "../../styles/Progress.module.css";
+import dashbStyles from "../../styles/Dashboard.module.css";
 
 import axios from "axios";
 
@@ -13,7 +14,6 @@ const ProgressPage = () => {
     const [habitStack, setHabitStack] = useState(null);
     const [habitLogs, setHabitLogs] = useState([]);
     const [predefinedHabits, setPredefinedHabits] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [progress, setProgress] = useState(null);
 
@@ -46,8 +46,6 @@ const ProgressPage = () => {
                 setHabitLogs(logs);
             } catch (error) {
                 console.error("Error fetching habit logs:", error);
-            } finally {
-                setLoading(false);
             }
         };
 
@@ -72,8 +70,6 @@ const ProgressPage = () => {
                 setProgress(response.data);
             } catch (error) {
                 console.error("Error fetching progress data:", error);
-            } finally {
-                setLoading(false);
             }
         };
 
@@ -87,15 +83,6 @@ const ProgressPage = () => {
         if (!habitId) return "Unknown Habit";
         const habit = predefinedHabits.find(h => h.id === habitId);
         return habit ? habit.name : "Unknown Habit";
-    };
-
-    const getCompletedLogsForMonth = () => {
-        const currentMonth = selectedDate.getMonth();
-        const currentYear = selectedDate.getFullYear();
-        return habitLogs.filter(log => {
-            const logDate = new Date(log.date);
-            return logDate.getMonth() === currentMonth && logDate.getFullYear() === currentYear;
-        });
     };
 
     const changeMonth = (direction) => {
@@ -121,8 +108,8 @@ const ProgressPage = () => {
 
 
     return (
-        <Container className={styles.pageContainer}>
-            <div className={styles.wrapper}>
+        <Container className={dashbStyles.pageContainer}>
+            <div className={dashbStyles.wrapper}>
 
                 {/* Habit Stack */}
                 <div className={`${styles.progressStackContainer}`}>
@@ -136,14 +123,14 @@ const ProgressPage = () => {
                 </div>
 
                 {/* Calendar */}
-                <div className={`${styles.itemContainer} ${styles.timeContainer}`}>
-                    <Button onClick={() => changeMonth(-1)} className={styles.arrowButton}>
+                <div className={`${dashbStyles.itemContainer} ${dashbStyles.timeContainer}`}>
+                    <Button onClick={() => changeMonth(-1)} className={dashbStyles.arrowButton}>
                         <i className="fa-solid fa-arrow-left"></i>
                     </Button>
                     <p>
                         {selectedDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
                     </p>
-                    <Button onClick={() => changeMonth(1)} className={styles.arrowButton}>
+                    <Button onClick={() => changeMonth(1)} className={dashbStyles.arrowButton}>
                         <i className="fa-solid fa-arrow-right"></i>
                     </Button>
                 </div>

@@ -109,9 +109,10 @@ const CreateStack = () => {
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
-
+            console.log("Show Modal: ", showModal);
             setShowModal(true);
         } catch (err) {
+            console.log("Error caught:", err);
             const backendErrors = err.response?.data || {};
 
             const newErrors = {};

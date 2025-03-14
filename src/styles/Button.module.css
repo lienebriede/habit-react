@@ -97,6 +97,7 @@
     border-color: #ee5909;
     color: white;
     text-decoration: none;
+    outline: none;
 }
 
 .btnGreen:hover,
@@ -123,11 +124,4 @@
 .btnGray:disabled {
     background-color: #afacac;
     border-color: #afacac;
-}
-
-.btnOrange:focus,
-.btnGreen:focus,
-.btnGray:focus,
-.btnRed:focus {
-    outline: none;
 }

@@ -1,0 +1,165 @@
+.progressContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.progressStackContainer {
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 10px;
+    padding: 10px;
+    width: 100%;
+    flex-wrap: wrap;
+    min-height: 50px;
+}
+
+.progressStackContainer {
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 10px;
+    padding: 10px;
+    width: 100%;
+    flex-wrap: wrap;
+    min-height: 50px;
+}
+
+.progressStackContainer a {
+    flex-shrink: 0;
+    font-size: 24px;
+    color: black;
+    text-decoration: none;
+}
+
+.progressStackTitle {
+    font-size: 18px;
+    font-weight: 500;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    flex-grow: 1;
+}
+
+.progressSectionsContainer {
+    justify-content: center;
+}
+
+.progressTitle {
+    padding-top: 30px;
+    padding-bottom: 20px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.progressNumbers {
+    font-size: 18px;
+    font-weight: 600;
+    padding-bottom: 25px;
+}
+
+.numberOrange {
+    color: #FF6F20;
+}
+
+.numberGreen {
+    color: #4CAF50;
+}
+
+.milestoneList {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 5px;
+}
+
+.milestoneItem {
+    font-size: 16px;
+    color: #444;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.milestoneText {
+    padding-bottom: 10px;
+}
+
+.milestoneDate {
+    font-size: 14px;
+    color: #888;
+    padding-bottom: 15px;
+}
+
+/* Calendar styles */
+.calendarGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    width: 100%;
+    gap: 5px;
+    padding: 5px;
+}
+
+
+.calendarContainer {
+    width: 100%;
+    margin-top: 10px auto;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.calendarDay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: rgb(229, 231, 235, 0.4);
+    font-size: 14px;
+    font-weight: 500;
+    color: #3a3b3c;
+}
+
+.completedDay {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.notCompletedDay {
+    background-color: rgba(229, 231, 235, 0.4);
+}
+
+@media (min-width: 768px) {
+    .calendarGrid {
+        gap: 10px;
+        max-width: 400px;
+    }
+
+    .calendarDay {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+}

@@ -162,7 +162,7 @@ const Dashboard = () => {
         const today = new Date().toISOString().split("T")[0];
 
         if (log.date > today) {
-            setErrors({ futureDate: "You cannot complete a habit for a future date." });
+            setErrors({ [log.id]: { futureDate: "Oops, you can't complete a habit stack in the future!" } });
             return;
         }
 
@@ -247,7 +247,7 @@ const Dashboard = () => {
                 ) : (
                     <ListGroup>
                         {getLogsForSelectedDate().length === 0 ? (
-                            <p className={styles.noLogsText}>You haven't scheduled any habit stacks for today yet!</p>
+                            <p className={styles.noLogsText}>You haven't created any habit stacks for this day yet!</p>
                         ) : (
                             getLogsForSelectedDate().map(log => {
                                 // Check if expiry is soon
@@ -272,7 +272,7 @@ const Dashboard = () => {
                                         {isExpiring && (
                                             <div key={`reminder-${log.id}`} className={styles.reminderMessageContainer}>
                                                 <div className={styles.reminderMessage}>
-                                                    This habit stack is expiring soon. Go to "My Stacks" to extend it!
+                                                    Keep going! Go to "My Stacks" to extend this habit stack!
                                                 </div>
                                             </div>
                                         )}
@@ -284,15 +284,16 @@ const Dashboard = () => {
                                                 View Progress
                                             </Button>
                                         </Link>
+                                        {errors[log.id] && errors[log.id].futureDate && (
+                                            <p className={styles.errorMessage}>{errors[log.id].futureDate}</p>
+                                        )}
                                     </React.Fragment>
                                 );
                             })
                         )}
                     </ListGroup>
                 )}
-                <div>
-                    {errors.futureDate && <p className={styles.errorMessage}>{errors.futureDate}</p>}
-                </div>
+
             </div>
 
             {/* Streak & Milestone message */}
