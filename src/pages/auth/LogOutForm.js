@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 
 import formStyles from "../../styles/Form.module.css";
 import btnStyles from "../../styles/Button.module.css";
@@ -9,13 +8,12 @@ import axios from "axios";
 
 function LogOutForm() {
     const [errors, setErrors] = useState(null);
-    const history = useHistory();
 
     const handleLogout = async () => {
         try {
             await axios.post("https://habit-by-bit-django-afc312512795.herokuapp.com/dj-rest-auth/logout/");
             localStorage.removeItem("token");
-            history.push("/signin");
+            window.location.href = "/signin";
         } catch (err) {
             setErrors(err.response?.data);
         }

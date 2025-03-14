@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import formStyles from "../../styles/Form.module.css";
 import btnStyles from "../../styles/Button.module.css";
@@ -15,16 +15,27 @@ function SignInForm() {
     const { username, password } = signInData;
 
     const [errors, setErrors] = useState({});
-    const history = useHistory();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const { data } = await axios.post("https://habit-by-bit-django-afc312512795.herokuapp.com/dj-rest-auth/login/", signInData);
+            // Make login request to API
+            const { data } = await axios.post(
+                "https://habit-by-bit-django-afc312512795.herokuapp.com/dj-rest-auth/login/",
+                signInData
+            );
+
+            console.log("Login Successful! Data received:", data);
+
+            // Store both the access_token and refresh_token
             localStorage.setItem("token", data.access_token);
-            history.push("/dashboard");
+            localStorage.setItem("refresh_token", data.refresh_token);
+
+            // Redirect to the dashboard after successful login
+            window.location.href = "/dashboard";
         } catch (err) {
+            console.error("Login Failed:", err.response?.data);
             setErrors(err.response?.data);
         }
     };
