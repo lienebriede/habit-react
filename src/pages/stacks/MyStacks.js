@@ -32,15 +32,7 @@ const MyStacks = () => {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
-                // For testing
-                const testStacks = response.data.results.map((stack) => {
-                    const oneDayLater = new Date();
-                    oneDayLater.setDate(oneDayLater.getDate() + 1);
-                    return { ...stack, active_until: oneDayLater.toISOString() };
-                });
-
-                setStacks(testStacks);
-                //setStacks(response.data.results);
+                setStacks(response.data.results);
             } catch (error) {
                 console.error("Error fetching stacks:", error);
             } finally {

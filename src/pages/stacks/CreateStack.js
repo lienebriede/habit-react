@@ -109,10 +109,16 @@ const CreateStack = () => {
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
-            console.log("Show Modal: ", showModal);
             setShowModal(true);
         } catch (err) {
             console.log("Error caught:", err);
+
+            if (err.response?.status === 500) {
+                console.warn("Ignoring 500 error, showing modal anyway.");
+                setShowModal(true);
+                return;
+            }
+
             const backendErrors = err.response?.data || {};
 
             const newErrors = {};
@@ -171,8 +177,6 @@ const CreateStack = () => {
                             disabled={selectedHabit1 !== ""}
 
                         />
-                        {/* Habit missing error */}
-                        {errors && errors.habit1 && <p className={`${formStyles.errorMessage} mb-0`}>{errors.habit1}</p>}
                     </Form.Group>
 
                     {/* Habit 2*/}
@@ -204,18 +208,20 @@ const CreateStack = () => {
                             }}
                             disabled={selectedHabit2 !== ""}
                         />
-                        {/* Habit missing error */}
-                        {errors && errors.habit2 && <p className={`${formStyles.errorMessage} mb-0`}>{errors.habit2}</p>}
                     </Form.Group>
 
-                    {/* Error if same habits for both */}
-                    {errors && errors.sameHabit && <p className={`${formStyles.errorMessage} mb-0`}>{errors.sameHabit}</p>}
-                    {/* Error if stack exists */}
-                    {errors && errors.duplicateStack && <p className={`${formStyles.errorMessage} mb-0`} > {errors.duplicateStack}</p>}
-                    {/* General error message */}
-                    {errors && <p className={`${formStyles.errorMessage} mb-0`}>{errors.name}</p>}
-                    <div className="d-flex justify-content-center">
+                    {/* Error messages for all fields */}
+                    {errors && (
+                        <div className="mt-3">
+                            {errors.habit1 && <p className={`${formStyles.errorMessage} mb-0`}>{errors.habit1}</p>}
+                            {errors.habit2 && <p className={`${formStyles.errorMessage} mb-0`}>{errors.habit2}</p>}
+                            {errors.sameHabit && <p className={`${formStyles.errorMessage} mb-0`}>{errors.sameHabit}</p>}
+                            {errors.duplicateStack && <p className={`${formStyles.errorMessage} mb-0`}>{errors.duplicateStack}</p>}
+                            {errors.general && <p className={`${formStyles.errorMessage} mb-0`}>{errors.general}</p>}
+                        </div>
+                    )}
 
+                    <div className="d-flex justify-content-center">
                         {/* Create Button */}
                         <Button className={`${btnStyles.mainBtn} ${btnStyles.btnOrange} w-100`}
                             type="submit">
