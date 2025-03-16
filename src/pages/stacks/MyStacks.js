@@ -22,7 +22,7 @@ const MyStacks = () => {
         const token = localStorage.getItem("token");
         if (!token) {
             console.log("No token found. Redirecting to login...");
-            history.push("/login");
+            history.push("/signin");
             return;
         }
 

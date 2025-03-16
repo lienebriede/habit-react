@@ -20,7 +20,7 @@ const ProgressPage = () => {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) {
-            history.push("/login");
+            history.push("/signin");
             return;
         }
 

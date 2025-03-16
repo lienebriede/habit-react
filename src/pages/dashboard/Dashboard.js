@@ -24,7 +24,7 @@ const Dashboard = () => {
         // Redirect to login page if no token is found
         const token = localStorage.getItem("token");
         if (!token) {
-            history.push("/login");
+            history.push("/signin");
             return;
         }
 

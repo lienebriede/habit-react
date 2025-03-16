@@ -113,12 +113,6 @@ const CreateStack = () => {
         } catch (err) {
             console.log("Error caught:", err);
 
-            if (err.response?.status === 500) {
-                console.warn("Ignoring 500 error, showing modal anyway.");
-                setShowModal(true);
-                return;
-            }
-
             const backendErrors = err.response?.data || {};
 
             const newErrors = {};
@@ -238,7 +232,7 @@ const CreateStack = () => {
                 </Modal.Header>
                 <Modal.Body>Your habit stack has been successfully created.</Modal.Body>
                 <Modal.Footer>
-                    <Button className={btnStyles.modalBtn} onClick={() => {
+                    <Button className={`${btnStyles.modalBtn} ${btnStyles.btnGreen}`} onClick={() => {
                         setShowModal(false);
                         history.push("/mystacks");
                     }}>
