@@ -171,6 +171,6 @@ The app was tested on these devices:
   - Chrome (Android) 
   - Mozilla Firefox
 
-Check create habit!!!
+The application functions smoothly across all devices, except for the issues outlined in the Bugs and Issues section.
 
 [Return to contents list](#table-of-contents)

@@ -6,7 +6,7 @@
 
 This web application is a habit tracking platform designed to help users build and maintain positive habits. It allows users to create, track, and manage habit stacks, set reminders, and visualize their progress through an intuitive dashboard. The application is built with a Django backend for robust data handling and React for a dynamic and responsive frontend. The platform follows a mobile-first design, ensuring a seamless experience across all devices, from desktop to mobile.
 
-Responsive:<img src="docs/responsive.png" width="600">
+<img src="docs/responsive.png" width="600">
 
 ## Table of Contents
 
@@ -33,19 +33,19 @@ Responsive:<img src="docs/responsive.png" width="600">
 - **Scalable Habit Tracking System**: Built to handle multiple habit stacks for individual users, the system enables them to create, track, and modify their habits with flexibility. It supports habit extensions, automatic scheduling, and a reminder system to keep users on track.
 - **Data-Driven Insights**: The platform offers users detailed analytics, such as streaks, milestones, and progress tracking, allowing users to visualize their habit journey and maintain motivation over time.
 - **Mobile-First & Responsive Design**: Designed with a mobile-first approach, the app provides an optimized, fluid user experience across all devices, ensuring that users can track and update their habits anywhere, anytime.
-- **Community Engagement & Social Features**: The app includes social sharing features where users can post their milestones, share progress in a feed, and celebrate achievements with others in the community. This fosters a sense of connection and encourages collective growth.
+- **Community Engagement & Social Features (Future Implementation)**: The app includes social sharing features where users can post their milestones, share progress in a feed, and celebrate achievements with others in the community. This fosters a sense of connection and encourages collective growth.
 
 ### Site goals
 
 - Offer an intuitive and easy-to-use habit building tool.
 - Visual tools like streaks and milestones to inspire users to stick with their habits.
-- Create a space for users to share progress and connect with like-minded people.
+- Create a space for users to share progress and connect with like-minded people (Future Implementation).
 - Customizable habit stacks, reminders, and extensions to meet users' evolving needs.
 - Fully mobile-optimized and responsive design to make habit tracking easy on any device.
 
 ### The Ideal User
 
-The ideal user is a motivated individual who wants to form new habits but needs encouragement and visibility of their progress. They value a simple, easy-to-use interface but also seek motivation through streaks, milestones, and community support. This user wants to share their journey, connect with others, and receive positive reinforcement to stay on track. They prefer a mobile-friendly platform but appreciate a consistent, seamless experience across all devices.
+The ideal user is a motivated individual who wants to form new habits but needs encouragement and visibility of their progress. They value a simple, easy-to-use interface but also seek motivation through streaks and milestones. They prefer a mobile-friendly platform but appreciate a consistent, seamless experience across all devices.
 
 [Return to contents list](#table-of-contents)
 
@@ -60,7 +60,7 @@ Agile values and principles have been followed in the creation of this project f
 ### Kanban Board
 
 There have been 42 issues managed on the Kanban board, encompassing Epics, User Stories and Bugs. 
-Throughout the project, encountered bugs were tracked separately with a dedicated bug label. By the project's conclusion, all implemented requirements were moved to the 'Done' column (excluding Epics and 'Won't Have' items).
+Throughout the project, encountered bugs were tracked separately with a dedicated bug label. By the project's conclusion, all implemented requirements were moved to the 'Done' column (excluding Epics, 'Won't Have' items and the Bug - "Users Logged out Unexpectedly").
 
 <img src="docs/kanban_screenshot.png" width="600">
 
@@ -169,7 +169,7 @@ View the list of User Stories categorized by role:</summary>
 
 <details>
 <summary>
-View the list of User Stories categorized by User Story prioritization:</summary>
+View the list of User Stories categorized by MoSCoW prioritization:</summary>
 
 ### Must Have
 
@@ -234,9 +234,10 @@ The logo features two stacked circles alongside the name Habit by Bit. These cir
 
 The background image consists of stacked circles, visually echoing the logo and reinforcing the habit-stacking process.
 
-
+<p float="left">
 <img src="docs/logo_white.jpg" width=150>
 <img src="docs/background.png" width=400>
+</p>
 
 
 ### Interactive Elements
@@ -317,9 +318,11 @@ Figma was used to create the wireframes for the app, starting with the mobile ve
 - After logging in, users are directed to the dashboard.
 - After logging out, users are redirected to the sign-in page.
 
+<p float="left">
 <img src="docs/sign_up.png" width="150">
 <img src="docs/sign_in.png" width="150">
 <img src="docs/logout.png" width="150">
+</p>
 
 ## Profile Page
 
@@ -330,9 +333,11 @@ Figma was used to create the wireframes for the app, starting with the mobile ve
 - A confirmation message appears after a successful update.
 - If no profile picture has been uploaded, a placeholder image is displayed by default.
 
+<p float="left">
 <img src="docs/dropdown_bavbar.png" width="150">
 <img src="docs/profile.png" width="150">
 <img src="docs/modal_profileUpdated.png" width="150">
+</p>
 
 ## My Stacks
 
@@ -344,8 +349,10 @@ The stack name (both selected habits).
 The "Active Until" date, indicating how long the stack is valid.
 - An "Edit" button is displayed below each habit stack for stack editing.
 
+<p float="left">
 <img src="docs/create_stacks.png" width="150">
 <img src="docs/stack_list.png" width="150">
+</p>
 
 
 ## Create a Stack
@@ -356,9 +363,11 @@ The same habit is not selected twice.
 A duplicate stack is not created.
 - After successful creation, a confirmation message appears to notify the user.
 
+<p float="left">
 <img src="docs/create_stack.png" width="150">
 <img src="docs/msg_created.png" width="150">
 <img src="docs/predefined.png" width="150">
+</p>
 
 
 ## Edit Stack
@@ -371,9 +380,11 @@ A duplicate stack is not created.
 - A confirmation modal prevents accidental deletions.
 - A success message confirms successful edits or deletions.
 
+<p float="left">
 <img src="docs/update_habit.png" width="150">
 <img src="docs/msg_update.png" width="150">
 <img src="docs/delete_success.png" width="150">
+</p>
 
 ## Extend Stacks
 
@@ -382,9 +393,11 @@ A duplicate stack is not created.
 - Clicking the button opens a modal with extension options (7 or 14 days).
 - After selecting an extension, a confirmation message appears with the updated "Active until" date.
 
+<p float="left">
 <img src="docs/extend_stacks.png" width="150">
 <img src="docs/modal_extend.png" width="150">
 <img src="docs/msg_extended.png" width="150">
+</p>
 
 ## Habit Tracking
 
@@ -397,11 +410,13 @@ A duplicate stack is not created.
 - Users cannot mark future habits as completed; an error message is displayed.
 - Habit stacks nearing expiration (2 days before active until) display a message prompting the user to extend them.
 
+<p float="left">
 <img src="docs/dashboard.png" width="150">
 <img src="docs/no_logs.png" width="150">
 <img src="docs/msg_streak.png" width="150">
 <img src="docs/error_futurelog.png" width="150">
 <img src="docs/extend msg.png" width="150">
+</p>
 
 
 ## Progress Display
@@ -414,8 +429,10 @@ A duplicate stack is not created.
 - The total number of times a habit stack has been completed is shown.
 - If no milestones have been achieved, a fitting message is displayed.
 
+<p float="left">
 <img src="docs/progress.png" width="150">
-<img src="docs/milestoneAchieved.png" widtg="150">
+<img src="docs/milestoneAchieved.png" width="150">
+</p>
 
 
 ## Future Features
@@ -441,6 +458,7 @@ Once implemented, users will be able to post their habit stack achievements, pro
     Used for deploying the project.
 1. [React Bootstrap 4](https://react-bootstrap.netlify.app/)
     Used for creating the design and layout of the page.
+1. [Figma](https://www.figma.com/login)
 1. [Font Awesome:](https://fontawesome.com/)
     Used to add icons for aesthetic and UX purposes.
 1. [Coudinary](https://cloudinary.com/)
