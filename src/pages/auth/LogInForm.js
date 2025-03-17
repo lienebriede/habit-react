@@ -26,8 +26,6 @@ function SignInForm() {
                 signInData
             );
 
-            console.log("Login Successful! Data received:", data);
-
             // Store both the access_token and refresh_token
             localStorage.setItem("token", data.access_token);
             localStorage.setItem("refresh_token", data.refresh_token);
@@ -35,7 +33,6 @@ function SignInForm() {
             // Redirect to the dashboard after successful login
             window.location.href = "/dashboard";
         } catch (err) {
-            console.error("Login Failed:", err.response?.data);
             setErrors(err.response?.data);
         }
     };

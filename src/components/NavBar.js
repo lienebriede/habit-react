@@ -24,7 +24,8 @@ const NavBar = () => {
 
                 <div className="d-flex align-items-center">
                     <Nav.Link as={NavLink} to="/mystacks" className="mr-3 mr-lg-5">
-                        <i class="fa-solid fa-cubes-stacked"></i>My Stacks</Nav.Link>
+                        <i className="fa-solid fa-cubes-stacked"></i>My Stacks
+                    </Nav.Link>
                     <Dropdown show={showDropdown} onToggle={setShowDropdown} alignRight>
                         <Dropdown.Toggle as="div" onClick={toggleDropdown} className={styles.toggle}>
                             <div className={styles.profileImage}>

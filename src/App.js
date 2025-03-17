@@ -16,6 +16,7 @@ import MyStacks from "./pages/stacks/MyStacks";
 import CreateStack from "./pages/stacks/CreateStack";
 import StackDetail from "./pages/stacks/StackDetail";
 import ProgressPage from "./pages/dashboard/ProgressPage";
+import Unauthorized from "./pages/auth/Unauthorized";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
@@ -65,7 +66,6 @@ function App() {
         });
         setIsAuthenticated(true);
       } catch (error) {
-        console.error("Token expired logging out.");
         handleLogout();
       }
     };
@@ -93,6 +93,7 @@ function App() {
             </Route>
             <Route exact path="/signup" component={SignUpForm} />
             <Route exact path="/logout" render={() => <LogOutForm logout={handleLogout} />} />
+            <Route exact path="/unauthorized" component={Unauthorized} />
 
             {/* Private routes */}
             {isAuthenticated ? (

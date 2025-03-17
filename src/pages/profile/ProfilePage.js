@@ -131,7 +131,7 @@ const ProfilePage = () => {
                 </Modal.Header>
                 <Modal.Body>Your profile has been successfully updated.</Modal.Body>
                 <Modal.Footer>
-                    <Button className={btnStyles.modalBtn} onClick={() => setShowModal(false)}>
+                    <Button className={`${btnStyles.modalBtn} ${btnStyles.btnGreen}`} onClick={() => setShowModal(false)}>
                         OK!
                     </Button>
                 </Modal.Footer>

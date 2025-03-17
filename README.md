@@ -6,7 +6,7 @@
 
 This web application is a habit tracking platform designed to help users build and maintain positive habits. It allows users to create, track, and manage habit stacks, set reminders, and visualize their progress through an intuitive dashboard. The application is built with a Django backend for robust data handling and React for a dynamic and responsive frontend. The platform follows a mobile-first design, ensuring a seamless experience across all devices, from desktop to mobile.
 
-Responsive:<img src="">
+Responsive:<img src="docs/responsive.png" width="600">
 
 ## Table of Contents
 
@@ -232,12 +232,11 @@ The visual identity of Habit by Bit is built around the concept of stacking circ
 The logo features two stacked circles alongside the name Habit by Bit. These circles symbolize habit stacking, where one habit builds on another, reinforcing the gradual "bit by bit" process of habit formation. The blue color represents neutrality and stability, grounding the design in a sense of calm and consistency.
 
 
-<img src="docs/logo.png" width=150>
-
-
 The background image consists of stacked circles, visually echoing the logo and reinforcing the habit-stacking process.
 
- <img src="docs/background.png" width=600>
+
+<img src="docs/logo_white.jpg" width=150>
+<img src="docs/background.png" width=400>
 
 
 ### Interactive Elements
@@ -258,6 +257,11 @@ The habit completion tickbox mirrors the theme of stacking circles. Upon marking
 - Orange: Symbolizes action and motivation. It emphasizes streaks, encouraging users to stay consistent and motivated.
 - Gray: Denotes the default or inactive state. This color is used for untouched calendar days and unchecked habit completion checkboxes.
 
+### Navbar
+
+The navbar adopts a minimalistic and user-friendly design, featuring a primary button "My Stacks" and a clickable profile icon for user settings. This layout is consistent across both mobile and larger screens, providing seamless navigation. The clean and distraction-free interface ensures a smooth user experience on all devices. The logo serves as a link to the dashboard. However, testing revealed that users may not immediately recognize it as clickable. As a result, an additional button or alternative solution for accessing the dashboard will be considered for improved clarity.
+
+<img src="docs/bavbar.png" width="300">
 
 ### Typography and Icons
 
@@ -275,29 +279,150 @@ These icons not only improve the visual aesthetics but also contribute to a more
 
 ### Error Pages
 
-### Responsivness
+Given that the app relies heavily on logged-in users, an unauthorized error page has been created to handle instances where users are logged out. During the development process, it was observed that users may occasionally be logged out unexpectedly. The error page clearly informs users that they need to log in again, providing a straightforward message to guide them back to the login screen. This ensures a smoother user experience even if they encounter login issues.
+
+<img src="docs/unauthorized.png" width="300">
+
+### Responsiveness
+
+To enhance the mobile user experience, the text next to the tickbox on the dashboard page has been removed from the mobile view. It is now only visible on larger screens, providing a more optimized and streamlined interface for smaller devices.
+
+<img src="docs/completed_text.png" width="300">
 
 ### Wireframes
 
-These wireframes were created during the project planning phase. Several changes have been implemented in the final application to enhance the user experience.
+Figma was used to create the wireframes for the app, starting with the mobile version and then adapting them for larger screens during the development process. This approach ensured that the design was optimized for a seamless user experience across different device sizes, starting with mobile-first and scaling up for larger displays.
 
-<img src="">
+<img src="docs/figma.png" width="600">
 
 [Return to contents list](#table-of-contents)
 
 # 3. Features
 
-## User registration and login/logout
-
 ## Welcome Modal
 
-## Habit Stacks
+- First-time visitors are greeted with a welcome modal that introduces the app and explains its purpose. 
+- The "Start Here" button remains fixed on the screen as users scroll, ensuring easy access. 
+- Clicking the "Start Here" button redirects users to the sign-up page.
+- The welcome modal only appears for new visitors and does not show for registered users.
+
+<img src="docs/welcome.png" width="150">
+
+## User registration and login/logout
+
+- The Sign-up and Sign-in forms include form validation to ensure correct input.
+- Both forms feature links allowing users to switch between "Already have an account?" and "Don’t have an account?", directing them to the relevant page.
+- The Log out option is conveniently located in the navbar under the profile image for easy access.
+- After signing up, users are redirected to the login page.
+- After logging in, users are directed to the dashboard.
+- After logging out, users are redirected to the sign-in page.
+
+<img src="docs/sign_up.png" width="150">
+<img src="docs/sign_in.png" width="150">
+<img src="docs/logout.png" width="150">
+
+## Profile Page
+
+- The Profile Page is accessible via the dropdown menu under the profile image in the navbar.
+- Displays a welcome message that includes the user's username.
+- Shows the "Member Since" date, indicating when the user registered.
+- Users can update or change their profile picture by uploading a new image.
+- A confirmation message appears after a successful update.
+- If no profile picture has been uploaded, a placeholder image is displayed by default.
+
+<img src="docs/dropdown_bavbar.png" width="150">
+<img src="docs/profile.png" width="150">
+<img src="docs/modal_profileUpdated.png" width="150">
+
+## My Stacks
+
+- The My Stacks page contains a "Create a new stack" button and a list of created habit stacks.
+- If a user has not created any stacks, only the "Create a new stack" button is displayed.
+- If habit stacks exist, they are listed below the button.
+- Each habit stack in the list displays:
+The stack name (both selected habits).
+The "Active Until" date, indicating how long the stack is valid.
+- An "Edit" button is displayed below each habit stack for stack editing.
+
+<img src="docs/create_stacks.png" width="150">
+<img src="docs/stack_list.png" width="150">
+
+
+## Create a Stack
+- Users can create a habit stack by selecting predefined habits, custom habits, or a mix of both.
+- Form validation ensures that:
+A habit is selected for each field.
+The same habit is not selected twice.
+A duplicate stack is not created.
+- After successful creation, a confirmation message appears to notify the user.
+
+<img src="docs/create_stack.png" width="150">
+<img src="docs/msg_created.png" width="150">
+<img src="docs/predefined.png" width="150">
+
+
+## Edit Stack
+
+- Users can update the habits within an existing stack.
+- If a predefined habit is selected, the custom habit input is disabled to prevent conflicts.
+- A confirmation message appears after a successful update.
+- A "Back" button redirects users to the stacks list page.
+- A delete option allows users to remove the stack if no longer needed.
+- A confirmation modal prevents accidental deletions.
+- A success message confirms successful edits or deletions.
+
+<img src="docs/update_habit.png" width="150">
+<img src="docs/msg_update.png" width="150">
+<img src="docs/delete_success.png" width="150">
+
+## Extend Stacks
+
+- When a habit stack is created, the completion logs are automatically created for it for the next 7 days.
+- When a habit stack is two days from expiration, an "Extend" button appears next to the "Edit" button below the habit stack.
+- Clicking the button opens a modal with extension options (7 or 14 days).
+- After selecting an extension, a confirmation message appears with the updated "Active until" date.
+
+<img src="docs/extend_stacks.png" width="150">
+<img src="docs/modal_extend.png" width="150">
+<img src="docs/msg_extended.png" width="150">
 
 ## Habit Tracking
 
-## Habit Progress View
+- Dashboard page displays all active habit stacks for the current day and the "View Progress" button below them.
+- Users can navigate between days using arrows or by selecting a date.
+- Each habit has a checkbox to mark and also unmark completion.
+- Completed habits are marked with a green checkbox, while incomplete habits remain gray.
+- A streak or milestone achievement message is displayed when a user completes a log and reaches a new streak or milestone.
+- A message is displayed if no logs exist for the selected day.
+- Users cannot mark future habits as completed; an error message is displayed.
+- Habit stacks nearing expiration (2 days before active until) display a message prompting the user to extend them.
 
-## Future Features - Content Sharing
+<img src="docs/dashboard.png" width="150">
+<img src="docs/no_logs.png" width="150">
+<img src="docs/msg_streak.png" width="150">
+<img src="docs/error_futurelog.png" width="150">
+<img src="docs/extend msg.png" width="150">
+
+
+## Progress Display
+
+- The progress page displays the habit stack completion history.
+- Users can navigate through different months to review past performance.
+- A calendar highlights completed days with green circles.
+- The current streak count is displayed, updating dynamically.
+- Milestone achievements appear when certain tracking goals are met.
+- The total number of times a habit stack has been completed is shown.
+- If no milestones have been achieved, a fitting message is displayed.
+
+<img src="docs/progress.png" width="150">
+<img src="docs/milestoneAchieved.png" widtg="150">
+
+
+## Future Features
+
+The Feed (Content Sharing) section was originally planned as part of the project but, due to time constraints, it remains a future implementation. This feature will allow users to share their milestone achievements and view the progress of others directly from the navbar.
+
+Once implemented, users will be able to post their habit stack achievements, providing a sense of accomplishment and motivation. Additionally, viewing milestones shared by others will encourage users to stay consistent and engaged with their habits. This feature aims to foster a supportive community, where users can inspire and celebrate each other's progress.
 
 # 4. Technologies Used
 
@@ -331,7 +456,7 @@ These wireframes were created during the project planning phase. Several changes
 
 See [testing.md](testing.md) for all testing and validation.
 
-### Bugs and Issues
+## Bugs and Issues
 
 1. Habit stack logs not showing
 
@@ -352,13 +477,27 @@ After logging in, the profile image wasn't fetched automatically when the user l
 Ensured that the profile data was fetched immediately after login, and the state was properly updated by adding logic to fetch the profile within the `useEffect` and managing the state correctly.
 
 
-3. Token Expired, Not Directed to Login
+3. Token Expired, Not Directed to Login (To Be Fixed)
 
 *Issue:*
-The `refresh_token` was not being stored when the user logged in, which caused issues with automatic token refreshing. This led to scenarios where the user was not redirected to the login page after the access token expired.
+The application works fine when the user first logs in, but after some time, the access token expires, and the user remains logged out without being properly redirected to the Unauthorized page or the login page. Users can continue to navigate through the app and see empty data on pages, but they are unaware that their session has expired and that they are logged out. The application does not detect the expired token and does not show the Unauthorized page or prompt the user to log in again. Instead, users see empty pages as if they are still logged in, even though their token is invalid.
 
-*Fix:*
-The Signin logic was modified to store both the `access_token` and `refresh_token` in localStorage so that the token refresh functionality could work properly.
+Additionally, the Welcome Modal is being triggered incorrectly when the user reloads or navigates back to the page, even though the user has logged in previously and should not see it.
+
+Due to time constraints and the complexity of handling token expiration, session management, and modal behavior, this issue was not fixed within the current iteration. The root cause, involving the expiration of the access token and the Welcome Modal logic, has been identified but requires further investigation and development to implement a robust and effective solution.
+
+## UI issues (To Be Fixed)
+
+1. Custom Habit Input Confusion
+
+When selecting a predefined habit from the list, the custom habit input field becomes disabled, causing confusion for users who may wish to enter a custom habit alongside the predefined one. To resolve this, users must first select the "Select a habit" option from the dropdown before they can input their custom habit. This interaction could be unclear to users, creating an unintuitive user experience. A UI update is necessary to make this process more intuitive, possibly by dynamically enabling the custom input field only when the "Select a habit" option is chosen.
+
+2. Navigation Back to Dashboard
+
+On the "My Stacks" page, users may struggle to navigate back to the main dashboard. Currently, clicking on the logo is the only way to return, which may not be immediately obvious to all users. To improve navigation, a clear, accessible button or text link labeled "Go back to Dashboard" should be added to the "My Stacks" page. Alternatively, a "Dashboard" button could be placed in the navbar for better visibility and easier access, ensuring users can quickly find their way back to the main page.
+
+3. Misleading Dashboard Interaction
+After signing up and loggin in, users are brought to the dashboard page. Sincw they haven't created any habit stacks, they are met with the message "You haven't created any habit stacks for this day yet!" which might leave them unsure of what action to take next. To improve clarity, the "Create Habit Stack" button should be positioned clearly beneath the calendar on the dashboard. This will help guide users to the next logical step, preventing confusion and encouraging them to create their first habit stack without searching for the correct button elsewhere in the app.
 
 [Return to contents list](#table-of-contents)
 

@@ -11,7 +11,6 @@ export const ProfileProvider = ({ children }) => {
     const history = useHistory();
 
     const handleLogout = useCallback(() => {
-        console.log("Logging out user...");
         localStorage.removeItem("token");
         localStorage.removeItem("refresh_token");
         setIsAuthenticated(false);
@@ -22,24 +21,18 @@ export const ProfileProvider = ({ children }) => {
         try {
             const refreshToken = localStorage.getItem("refresh_token");
             if (!refreshToken) {
-                console.error("No refresh token found!");
                 handleLogout();
                 return null;
             }
-
-            console.log("Refreshing token...");
 
             const { data } = await axios.post(
                 "https://habit-by-bit-django-afc312512795.herokuapp.com/dj-rest-auth/token/refresh/",
                 { refresh: refreshToken }
             );
 
-            console.log("Token refreshed:", data);
-
             localStorage.setItem("token", data.access);
             return data.access;
         } catch (error) {
-            console.error("Token refresh failed! Logging out...");
             handleLogout();
             return null;
         }
@@ -48,12 +41,9 @@ export const ProfileProvider = ({ children }) => {
     const fetchProfile = useCallback(async () => {
         let token = localStorage.getItem("token");
         if (!token) {
-            console.error("No token found! Redirecting...");
             handleLogout();
             return;
         }
-
-        console.log("Stored Token:", token);
 
         try {
             const userResponse = await axios.get(
@@ -61,33 +51,26 @@ export const ProfileProvider = ({ children }) => {
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
-            console.log("User Response:", userResponse.data);
             const profileId = userResponse.data.pk;
 
             if (!profileId) {
-                console.error("Profile ID missing! Logging out...");
                 handleLogout();
                 return;
             }
-
-            console.log("Profile ID:", profileId);
 
             const response = await axios.get(
                 `https://habit-by-bit-django-afc312512795.herokuapp.com/profiles/${profileId}/`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
-            console.log("Profile Data:", response.data);
             setProfile(response.data);
         } catch (error) {
             if (error.response?.status === 401) {
-                console.warn("Token expired, attempting refresh...");
                 const newToken = await refreshToken();
                 if (newToken) {
                     fetchProfile();
                 }
             } else {
-                console.error("Error fetching profile:", error.response?.status);
                 handleLogout();
             }
         }

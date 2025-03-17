@@ -36,10 +36,10 @@ const WelcomeModal = ({ onClose }) => {
                 </div>
                 <h3>How Habit by Bit Helps You! </h3>
                 <ul>
-                    <li><i class="fa-solid fa-check"></i><strong>Start with just 7 days! </strong>Build small, win big!</li>
-                    <li><i class="fa-solid fa-check"></i><strong>Stack your habits! </strong>Connect new habits to existing ones to make them stick.</li>
-                    <li><i class="fa-solid fa-check"></i><strong>Track your progress! </strong>Watch as your habits grow stronger, just like your neural pathways!</li>
-                    <li><i class="fa-solid fa-check"></i><strong>Keep going! </strong>After 7 days, extend your habit journey for another 7 or 14 days!</li>
+                    <li><i className="fa-solid fa-check"></i><strong>Start with just 7 days! </strong>Build small, win big!</li>
+                    <li><i className="fa-solid fa-check"></i><strong>Stack your habits! </strong>Connect new habits to existing ones to make them stick.</li>
+                    <li><i className="fa-solid fa-check"></i><strong>Track your progress! </strong>Watch as your habits grow stronger, just like your neural pathways!</li>
+                    <li><i className="fa-solid fa-check"></i><strong>Keep going! </strong>After 7 days, extend your habit journey for another 7 or 14 days!</li>
                 </ul>
 
 

@@ -16,7 +16,7 @@ const StackDetail = () => {
     const [selectedHabit2, setSelectedHabit2] = useState("");
     const [customHabit1, setCustomHabit1] = useState("");
     const [customHabit2, setCustomHabit2] = useState("");
-    const [errors, setErrors] = useState(null);
+    const [errors, setErrors] = useState({});
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [loading, setLoading] = useState(true);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -39,7 +39,10 @@ const StackDetail = () => {
                 setSelectedHabit2(data.predefined_habit2 || "");
                 setCustomHabit2(data.custom_habit2 || "");
             } catch (error) {
-                console.error("Error fetching data:", error);
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    general: "Oops, something went wrong while fetching the habit stacks. Please try again later."
+                }));
             } finally {
                 setLoading(false);
             }
@@ -88,7 +91,11 @@ const StackDetail = () => {
             }, 2000);
 
         } catch (error) {
-            console.error("Error updating stack:", error);
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                general: "Oops, something went wrong while updating your habit stack. Please try again later."
+            }));
+            setShowSuccessModal(false);
         }
     };
 
@@ -106,7 +113,11 @@ const StackDetail = () => {
             }, 2000);
 
         } catch (error) {
-            console.error("Error deleting stack:", error);
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                general: "Oops, something went wrong while deleting your habit stack. Please try again later."
+            }));
+            setShowSuccessModal(false);
         }
     };
 
@@ -115,10 +126,14 @@ const StackDetail = () => {
     return (
         <Container className={formStyles.formContainer}>
             <div className={formStyles.formWrapper}>
+
+                {/* General Error Message */}
+                {errors.general && <p className={formStyles.errorMessage}>{errors.general}</p>}
+
                 <Button className={`${btnStyles.deleteBtn}`} onClick={() => setShowDeleteModal(true)}>
                     <i className="fa-solid fa-trash-can"></i>
                 </Button>
-                <Link to="/mystacks" className={``}><i class="fa-solid fa-arrow-left"></i>
+                <Link to="/mystacks" className={``}><i className="fa-solid fa-arrow-left"></i>
                 </Link>
                 <h1 className="mt-4">Edit habit stack</h1>
 

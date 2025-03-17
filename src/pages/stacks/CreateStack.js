@@ -27,21 +27,18 @@ const CreateStack = () => {
                     return;
                 }
 
-                const response = await axios.get(
+                await axios.get(
                     "https://habit-by-bit-django-afc312512795.herokuapp.com/predefined-habits/",
                     { headers: { Authorization: `Bearer ${token}` } }
-                );
+                ).then(response => {
+                    if (Array.isArray(response.data.results)) {
+                        setPredefinedHabits(response.data.results);
+                    } else {
+                        setPredefinedHabits([]);
+                    }
+                });
 
-                console.log("Predefined Habits API Response:", response.data);
-
-                if (Array.isArray(response.data.results)) {
-                    setPredefinedHabits(response.data.results);
-                } else {
-                    console.error("Expected 'results' to be an array:", response.data);
-                    setPredefinedHabits([]);
-                }
             } catch (err) {
-                console.error("Error fetching predefined habits:", err);
                 setErrors({ name: "Oops, something went wrong. Please try again." });
                 setPredefinedHabits([]);
             }
@@ -100,10 +97,8 @@ const CreateStack = () => {
 
             };
 
-            console.log("Submitting habits:", requestData);
-
             // Check if already exists
-            const response = await axios.post(
+            await axios.post(
                 "https://habit-by-bit-django-afc312512795.herokuapp.com/habit-stacking/",
                 requestData,
                 { headers: { Authorization: `Bearer ${token}` } }
@@ -111,8 +106,6 @@ const CreateStack = () => {
 
             setShowModal(true);
         } catch (err) {
-            console.log("Error caught:", err);
-
             const backendErrors = err.response?.data || {};
 
             const newErrors = {};

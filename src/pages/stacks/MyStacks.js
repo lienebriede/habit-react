@@ -16,12 +16,12 @@ const MyStacks = () => {
     const [showDropdown, setShowDropdown] = useState(null);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         // Fetch Habit Stacks
         const token = localStorage.getItem("token");
         if (!token) {
-            console.log("No token found. Redirecting to login...");
             history.push("/signin");
             return;
         }
@@ -34,7 +34,7 @@ const MyStacks = () => {
 
                 setStacks(response.data.results);
             } catch (error) {
-                console.error("Error fetching stacks:", error);
+                setError("Oops, something went wrong while fetching the habit stacks. Please try again later.");
             } finally {
                 setLoading(false);
             }
@@ -57,7 +57,7 @@ const MyStacks = () => {
 
                 setPredefinedHabits(response.data.results);
             } catch (error) {
-                console.error("Error fetching predefined habits:", error);
+                setError("Failed to load predefined habits. Please try again later.");
             }
         };
 
@@ -106,7 +106,6 @@ const MyStacks = () => {
             }
         } catch (error) {
             alert("Error extending habit.");
-            console.error("Extend error:", error);
         }
     };
 
@@ -130,7 +129,7 @@ const MyStacks = () => {
 
                 {/* Create habit stack */}
                 <Button onClick={handleCreateStack} className={`${styles.listItem} ${styles.createHabitBtn} mb-0`}>
-                    <div><i class="fa-solid fa-plus"></i>Create a new habit stack</div>
+                    <div><i className="fa-solid fa-plus"></i>Create a new habit stack</div>
                 </Button>
 
                 {/* Stacks list */}
@@ -140,6 +139,13 @@ const MyStacks = () => {
                     <ListGroup>
                         {stacks.map((stack) => (
                             <div key={stack.id}>
+
+                                {/* Error message display */}
+                                {error && (
+                                    <div className="mt-3">
+                                        <p className={formStyles.errorMessage}>{error}</p>
+                                    </div>
+                                )}
 
                                 {/* Habit Stack */}
                                 <ListGroup.Item className={`${styles.listItem} pt-4`}>

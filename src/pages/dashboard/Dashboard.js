@@ -37,7 +37,10 @@ const Dashboard = () => {
                 );
                 setStacks(response.data.results);
             } catch (error) {
-                console.error("Error fetching stacks:", error);
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    stacks: "Failed to load habit stacks.",
+                }));
             }
         };
 
@@ -71,9 +74,10 @@ const Dashboard = () => {
                 });
 
                 setHabitLogs(logsData);
-                console.log("Fetched all habit logs:", logsData);
-            } catch (error) {
-                console.error("Error fetching habit logs:", error);
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    habitLogs: "Failed to load habit logs.",
+                }));
             } finally {
                 setLoading(false);
             }
@@ -87,7 +91,10 @@ const Dashboard = () => {
                 );
                 setPredefinedHabits(response.data.results);
             } catch (error) {
-                console.error("Error fetching predefined habits:", error);
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    predefinedHabits: "Failed to load predefined habits.",
+                }));
             }
         };
 
@@ -132,7 +139,7 @@ const Dashboard = () => {
                 }
             });
         });
-        console.log("Logs for selected date:", formattedDate, Array.from(logsForDate.values()));
+
         return Array.from(logsForDate.values());
     };
 
@@ -204,7 +211,10 @@ const Dashboard = () => {
             );
             setHabitLogs(updatedLogs);
         } catch (error) {
-            console.error("Error updating habit log:", error);
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                habitLogUpdate: "Failed to update habit log.",
+            }));
         }
     };
 
@@ -280,7 +290,7 @@ const Dashboard = () => {
                                         {/* Progress Button */}
                                         <Link to={`/habit-stacking/${log.habit_stack.id}/progress`}>
                                             <Button className={`${btnStyles.mainBtn} ${btnStyles.editStackBtn} ${btnStyles.btnOrange}`}>
-                                                <i class="fa-solid fa-chart-simple"></i>
+                                                <i className="fa-solid fa-chart-simple"></i>
                                                 View Progress
                                             </Button>
                                         </Link>
